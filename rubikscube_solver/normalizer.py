@@ -22,10 +22,7 @@ class Normalizer:
         with open('solve-manual.json') as f:
             manual = json.load(f)
 
-        solution = []
-        for notation in alg.split(' '):
-            solution.append(manual[language][notation])
-        return solution
+        return [manual[language][notation] for notation in alg.split(' ')]
 
 
 normalize = Normalizer()

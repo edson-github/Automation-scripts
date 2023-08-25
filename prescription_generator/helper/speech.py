@@ -14,11 +14,11 @@ def speech_rec_for_linux():
     medicines = {}
 
     with sr.Microphone() as source:
-        while (True):
+        while True:
             medicine_dict = {}
             count += 1
 
-            print("Medicine-" + str(count) + " Information")
+            print(f"Medicine-{count} Information")
 
             print("Adjusting noise ")
             r.adjust_for_ambient_noise(source, duration=1)
@@ -40,7 +40,7 @@ def speech_rec_for_linux():
                     break
 
                 medicine_dict["Medicine Name"] = str(text)
-                print("Decoded Text : {}".format(text))
+                print(f"Decoded Text : {text}")
 
             except Exception as e:
                 print(e)
@@ -60,12 +60,12 @@ def speech_rec_for_linux():
                     language="en-US"
                 )
                 medicine_dict["Instruction"] = str(text)
-                print("Decoded Text : {}".format(text))
+                print(f"Decoded Text : {text}")
 
             except Exception as e:
                 print(e)
 
-            medicines["Medicine No. " + str(count)] = medicine_dict
+            medicines[f"Medicine No. {count}"] = medicine_dict
 
     return medicines
 
@@ -82,11 +82,11 @@ def speech_rec_for_windows():
     medicines = {}
 
     with sr.Microphone() as source:
-        while (True):
+        while True:
             medicine_dict = {}
             count += 1
 
-            print("Medicine-" + str(count) + " Information")
+            print(f"Medicine-{count} Information")
 
             print("Adjusting noise ")
             r.adjust_for_ambient_noise(source, duration=1)
@@ -108,7 +108,7 @@ def speech_rec_for_windows():
                     break
 
                 medicine_dict["Medicine Name"] = str(text)
-                print("Decoded Text : {}".format(text))
+                print(f"Decoded Text : {text}")
 
             except Exception as e:
                 print("Exception", e)
@@ -129,11 +129,11 @@ def speech_rec_for_windows():
                     language="en-US"
                 )
                 medicine_dict["Instruction"] = str(text)
-                print("Decoded Text : {}".format(text))
+                print(f"Decoded Text : {text}")
 
             except Exception as e:
                 print("Exception", e)
 
-            medicines["Medicine No. " + str(count)] = medicine_dict
+            medicines[f"Medicine No. {count}"] = medicine_dict
 
     return medicines

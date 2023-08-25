@@ -36,8 +36,10 @@ if __name__ == '__main__':
         title, available = product_info(url)
         print(title, available)
         if available:
-            text = "Subject: Price Available Now!\n\n"
-            text += "Your tracked products are Available Now!\n\n"
+            text = (
+                "Subject: Price Available Now!\n\n"
+                + "Your tracked products are Available Now!\n\n"
+            )
             text += f"{title}\n"
             text += f"{url}\n\n"
             if (send_email(text)):

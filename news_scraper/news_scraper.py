@@ -25,29 +25,24 @@ body = [pt.get_text() for pt in body_tags]
 
 final = []
 for i in range(len(body)):
-    news = {'Title': None,
-            'Author': None,
-            'Date': None,
-            'Time': None,
-            'Details': None}
-    news['Title'] = headlines[i]
-    news['Author'] = author[i]
-    news['Date'] = date[i]
-    news['Time'] = time[i]
-    news['Details'] = body[i]
+    news = {
+        'Title': headlines[i],
+        'Author': author[i],
+        'Date': date[i],
+        'Time': time[i],
+        'Details': body[i],
+    }
     final.append(news)
 final
 
-textfile = open("news.txt", "w", encoding="utf-8")
-textfile.write("NEWS " + str(today) + "\n")
-for element in final:
-    for key, value in element.items():
-        textfile.write(f'{key}: {value}\n')
-    textfile.write('\n')
-textfile.close()
-
+with open("news.txt", "w", encoding="utf-8") as textfile:
+    textfile.write(f"NEWS {str(today)}" + "\n")
+    for element in final:
+        for key, value in element.items():
+            textfile.write(f'{key}: {value}\n')
+        textfile.write('\n')
 document = Document()
-document.add_heading('NEWS ' + str(today), 0)
+document.add_heading(f'NEWS {str(today)}', 0)
 for element in final:
     p = document.add_paragraph('')
     for key, value in element.items():

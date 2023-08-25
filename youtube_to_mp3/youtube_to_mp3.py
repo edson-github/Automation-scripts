@@ -11,7 +11,7 @@ for i in stream:
 k = int(input("Type the itag no. you want to download"))
 video.streams.get_by_itag(k).download(SAVE_PATH)
 m = video.title
-print(m + "is downloaded in .mp4 audio format")
+print(f"{m}is downloaded in .mp4 audio format")
 
 text_files = [f for f in os.listdir(SAVE_PATH) if f.endswith('.mp4')]
 print(text_files)

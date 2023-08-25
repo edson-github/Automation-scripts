@@ -13,7 +13,7 @@ def main(args: argparse.Namespace) -> None:
     else:  # if file is passed then read that file content
         try:  # try to open the file
             with open(args.file) as f:
-                for data in f.readlines():
+                for data in f:
                     content += data
         except FileNotFoundError:  # if file not found
             # \033[91m specifies the red color

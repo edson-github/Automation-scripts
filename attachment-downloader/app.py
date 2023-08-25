@@ -38,9 +38,8 @@ def downloadAttachment():
                         cwd = os.getcwd()
                         filePath = os.path.join("PATH", fileName)
                         if not os.path.isfile(filePath):
-                            fileWrite = open(filePath, "wb")
-                            fileWrite.write(content.get_payload(decode=True))
-                            fileWrite.close()
+                            with open(filePath, "wb") as fileWrite:
+                                fileWrite.write(content.get_payload(decode=True))
                         uid = latestEmailUID.decode("utf-8")
                         print(
                             f'Downloaded "{fileName}" in "{cwd}\\download" from "{fromEmail}" with UID "{uid}"'

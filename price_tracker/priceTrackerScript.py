@@ -75,8 +75,10 @@ if __name__ == '__main__':
             if title is not None and price < limit and available:
                 products_below_limit.append((product_url, title, price, limit))
         if products_below_limit:
-            message = "Subject: Price below limit!\n\n"
-            message += "Your tracked products are below the given limit!\n\n"
+            message = (
+                "Subject: Price below limit!\n\n"
+                + "Your tracked products are below the given limit!\n\n"
+            )
             foundData = []
             for url, title, price, limit in products_below_limit:
                 message += f"{title}\n"

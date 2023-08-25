@@ -34,51 +34,48 @@ except InvalidMins:
 
 # Time conversion according to zone
 if starting_zone == "CST":
-    hours1 = hours1 + 6
-    pass
+    hours1 += 6
 elif starting_zone == "EST":
-    hours1 = hours1 - 10
-    pass
+    hours1 -= 10
 elif starting_zone == "MST":
-    hours1 = hours1 + 7
-    pass
+    hours1 += 7
 elif starting_zone == "PST":
-    hours1 = hours1 + 8
+    hours1 += 8
 
 if hours1 > 12:
-    hours1 = hours1 - 12
+    hours1 -= 12
     if ampm == 'am':
         ampm = 'pm'
     elif ampm == 'pm':
         ampm = 'am'
 elif hours1 < 0:
-    hours1 = hours1 + 12
+    hours1 += 12
     if ampm == 'am':
         ampm = 'pm'
     elif ampm == 'pm':
         ampm = 'am'
 
 if end_zone == "CST":
-    hours1 = hours1 - 6
+    hours1 -= 6
 elif end_zone == "EST":
-    hours1 = hours1 + 10
+    hours1 += 10
 elif end_zone == "MST":
-    hours1 = hours1 - 7
+    hours1 -= 7
 elif end_zone == "PST":
-    hours1 = hours1 - 8
+    hours1 -= 8
 
 if hours1 > 12:
-    hours1 = hours1 - 12
+    hours1 -= 12
     if ampm == 'am':
         ampm = 'pm'
     elif ampm == 'pm':
         ampm = 'am'
 elif hours1 < 0:
-    hours1 = hours1 + 12
+    hours1 += 12
     if ampm == 'am':
         ampm = 'pm'
     elif ampm == 'pm':
         ampm = 'am'
 
 # Result
-print('Time: ' + str(hours1) + ":" + str(mins1) + ampm)
+print(f'Time: {hours1}:{mins1}{ampm}')

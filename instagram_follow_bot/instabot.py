@@ -12,8 +12,7 @@ with open('follower.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
     for row in csv_reader:
         if len(row) != 0:
-            for element in row:
-                already_follow.append(element)
+            already_follow.extend(iter(row))
 
 
 class InstagramBot:

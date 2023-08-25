@@ -14,10 +14,7 @@ def to_int(a, rel_to):
     if type(a) == int:
         return a
     else:
-        if '%' in a:
-            return int((int(a.replace('%', '')) / 100) * rel_to)
-        else:
-            return int(a)
+        return int((int(a.replace('%', '')) / 100) * rel_to) if '%' in a else int(a)
 
 
 if __name__ == '__main__':
@@ -77,12 +74,14 @@ if __name__ == '__main__':
     # find the video data for the input file
     # and find it's default video stream (the first one)
     metadata = ffmpeg.probe(args.input)
-    vid_stream = None
-    for stream in metadata['streams']:
-        if stream['codec_type'] == 'video':
-            vid_stream = stream
-            break
-
+    vid_stream = next(
+        (
+            stream
+            for stream in metadata['streams']
+            if stream['codec_type'] == 'video'
+        ),
+        None,
+    )
     # if no video stream has been found we cannot crop it
     if vid_stream is None:
         sys.stderr.write('ERROR: could not find valid video stream in file')

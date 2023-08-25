@@ -53,17 +53,16 @@ def delete(id):
 @app.route('/modify/<int:id>', methods=['POST', 'GET'])
 def modify(id):
     task = TODO.query.get_or_404(id)
-    if request.method == 'POST':
-        task.content = request.form['content']
-        try:
-            db.session.commit()
-            flash("Successfully updated")
-            return redirect('/')
-        except Exception:
-            flash("An error occurred")
-            return redirect('/')
-    else:
+    if request.method != 'POST':
         return render_template("toDoListTemplate.html", tasks=task)
+    task.content = request.form['content']
+    try:
+        db.session.commit()
+        flash("Successfully updated")
+        return redirect('/')
+    except Exception:
+        flash("An error occurred")
+        return redirect('/')
 
 
 if __name__ == '__main__':

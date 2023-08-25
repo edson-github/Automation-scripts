@@ -15,8 +15,8 @@ def setup_driver():
 
     if find_geckodriver.exists():
         driver = 'geckodriver'
-        print('Using %s' % driver)
-        PATH_TO_DRIVER = './%s' % driver
+        print(f'Using {driver}')
+        PATH_TO_DRIVER = f'./{driver}'
 
         firefox_options = Options_firefox()
 
@@ -31,8 +31,8 @@ def setup_driver():
 
     elif find_chromedriver.exists():
         driver = 'chromedriver'
-        print('Using %s' % driver)
-        PATH_TO_DRIVER = './%s' % driver
+        print(f'Using {driver}')
+        PATH_TO_DRIVER = f'./{driver}'
 
         chrome_options = Options_chrome()
 
@@ -55,19 +55,15 @@ def scrape_medium(browser, search_term, search_count):
 
     # perform search of keyword in medium
 
-    browser.get('https://medium.com/search?q=%s' % search_term)
+    browser.get(f'https://medium.com/search?q={search_term}')
     browser.implicitly_wait(10)
 
     results = browser.find_elements_by_xpath('//a[contains(text(), "Read more")]')
 
-    all_articles = []
-    # get the links for all articles and store in list
-    for each_article in results:
-        all_articles.append(each_article.get_attribute('href'))
-
+    all_articles = [each_article.get_attribute('href') for each_article in results]
     # go to link of each article and export as PDF
     for counter, url in enumerate(all_articles, 1):
-        print('Exporting article %s/%s: %s' % ((counter), search_count, url))
+        print(f'Exporting article {counter}/{search_count}: {url}')
 
         browser.get(url)
         browser.implicitly_wait(10)
@@ -79,7 +75,7 @@ def scrape_medium(browser, search_term, search_count):
         url_to_export = browser.current_url
 
         # pdf name will contain article title
-        pdf = 'Medium-%s.pdf' % article_title
+        pdf = f'Medium-{article_title}.pdf'
         pdf = pdf.replace(' ', '-')
 
         # export pdf
@@ -88,7 +84,7 @@ def scrape_medium(browser, search_term, search_count):
 
         # stop when we reach specified search count
         if (counter == int(search_count)):
-            print('Complete. %s medium articles exported to PDF.' % search_count)
+            print(f'Complete. {search_count} medium articles exported to PDF.')
             browser.close()
             return
 
@@ -149,9 +145,7 @@ def program_run():
         else:
             print("Invalid option. Try again! Or enter x to exit")
             continue
-    pass
 
 
 if __name__ == "__main__":
     program_run()
-    pass

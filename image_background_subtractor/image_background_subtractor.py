@@ -15,4 +15,4 @@ with mp_selfie_segmentation.SelfieSegmentation(model_selection=0) as selfie_segm
         bg_image = np.zeros(image.shape, dtype=np.uint8)
         bg_image[:] = BG_COLOR
         output_image = np.where(condition, image, bg_image)
-        cv2.imwrite('location_to_store_result/result' + str(idx) + '.png', output_image)
+        cv2.imwrite(f'location_to_store_result/result{str(idx)}.png', output_image)

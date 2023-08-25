@@ -32,14 +32,18 @@ def main():
 	for i in cc:
 		print( ">",i)
 	choice = 'y'
-	while choice == 'y' or choice == 'Y':
+	while choice in {'y', 'Y'}:
 		try:
 			card_number = input("\nEnter the credit card number: ")
-			if is_valid(card_number) and 13 <= len(card_number) and len(card_number) <= 19:
+			if (
+				is_valid(card_number)
+				and len(card_number) >= 13
+				and len(card_number) <= 19
+			):
 				print("\nThis is a valid credit card number.")
 				digi = digits_of(card_number)
 				lenn = len(digi)
-				if card_number[0:1] == "4" and ( lenn == 16 or lenn == 13 ): # visa case
+				if card_number[:1] == "4" and lenn in {16, 13}: # visa case
 					print("Type:" , cc[0])
 					print("Major Industry Identifier (MII):" , mii[digi[0]])
 					if(lenn==13):
@@ -49,25 +53,40 @@ def main():
 						print("Account Number:", card_number[6:15])
 						print("Checksum:", digi[15])
 
-				elif card_number[0:2] == "34" or card_number[0:2] == "37" and lenn == 15 : # american express card
+				elif card_number[:2] == "34" or card_number[:2] == "37" and lenn == 15: # american express card
 					print("Type:" , cc[1])
 					print("Major Industry Identifier (MII):", mii[digi[0]])
 					print("Account Number:", card_number[4:11])
 					print("Card Number within the account:", card_number[11:14])
 					print("Checksum:", digi[14])
 
-				elif card_number[0:2] == "300" or card_number[0:2] == "301" or card_number[0:2] == "302" or card_number[0:2] == "303" or card_number[0:2] == "304" or card_number[0:2] == "305" and lenn ==14 : #Diner club carte blanche
+				elif (
+					card_number[:2] == "300"
+					or card_number[:2] == "301"
+					or card_number[:2] == "302"
+					or card_number[:2] == "303"
+					or card_number[:2] == "304"
+					or card_number[:2] == "305"
+					and lenn == 14
+				): #Diner club carte blanche
 					print("Type:", cc[2])
 					print("Major Industry Identifier (MII):", mii[digi[0]])
 					print("Checksum:", digi[13])
 
-				elif card_number[0:2] == "51" or card_number[0:2] == "52" or card_number[0:2] == "53" or card_number[0:2] == "54" or card_number[0:2] == "55" and lenn == 16 :
+				elif (
+					card_number[:2] == "51"
+					or card_number[:2] == "52"
+					or card_number[:2] == "53"
+					or card_number[:2] == "54"
+					or card_number[:2] == "55"
+					and lenn == 16
+				):
 					print("Type:", cc[3])
 					print("Major Industry Identifier (MII):", mii[digi[0]])
 					print("Account Number:", card_number[6:15])
 					print("Checksum:", digi[15])
 
-				elif card_number[0:4] == "6011" and lenn == 16 :
+				elif card_number[:4] == "6011" and lenn == 16:
 					print("Type:", cc[4])
 					print("Major Industry Identifier (MII):", mii[digi[0]])
 					print("Account Number:", card_number[4:15])

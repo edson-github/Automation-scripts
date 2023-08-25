@@ -138,7 +138,7 @@ until given a bad input or "Q/q". """
 {fiat_value} {fiat_type.upper()} in {crypto_type.upper()} is  -->  {result}
 {'-'*42}""")
 
-        elif user_inp == "Q" or user_inp == "q":
+        elif user_inp in ["Q", "q"]:
             return
 
         else:

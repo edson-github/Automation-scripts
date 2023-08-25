@@ -52,8 +52,7 @@ def get_available_wifi():
             signal = int(temp[5].rstrip().split(" : ")[-1][:-1])
             networks.append((ssid, signal))
 
-        networks = sorted(networks, reverse=True, key=lambda x: x[1])
-        return (networks)
+        return sorted(networks, reverse=True, key=lambda x: x[1])
 
 
 def main():

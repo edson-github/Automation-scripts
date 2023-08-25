@@ -1,6 +1,7 @@
 '''
 Import the necessary libraries
 '''
+
 # !pip install selenium
 from selenium import webdriver
 import time
@@ -17,7 +18,7 @@ driver.get('https://www.cardekho.com/filter/new-cars')
 '''
 Keep scrolling automatically and extract the data from the webpage and store it
 '''
-for i in range(0, 20):
+for _ in range(0, 20):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(1)
     driver.execute_script("window.scrollTo(0, \

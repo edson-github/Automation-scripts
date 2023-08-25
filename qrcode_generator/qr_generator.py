@@ -138,8 +138,8 @@ my_btn2.grid(row=3, column=1,)
 def uploadFiles():
     progbar = Progressbar(main, orient=HORIZONTAL, length=200, mode='determinate')
     progbar.grid(row=5, columnspan=3, pady=10)
-    for i in range(50):
-        if progbar['value'] == 66 or progbar['value'] == 90:
+    for _ in range(50):
+        if progbar['value'] in [66, 90]:
             time.sleep(0.5)
         root.update_idletasks()
         progbar['value'] += 2

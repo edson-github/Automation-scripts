@@ -40,24 +40,22 @@ class AlHtmlToMarkdown():
                 extension = os.path.splitext(filepath)[1]
                 try:
                     if extension.lower() == ".html":
-                        htmlFile = open(filepath, "r")
-                        html = htmlFile.read()
-                        htmlFile.close()
+                        with open(filepath, "r") as htmlFile:
+                            html = htmlFile.read()
                         markDown = markdownify.markdownify(html,
                                                            heading_style="ATX")
                         markdownFileName = filename.replace(extension, '.md')
                         markdownFilePath = os.path.join(cwd + '\\AlHtmlToMarkd'
                                                         'own\\Markdown',
                                                         markdownFileName)
-                        markdownFile = open(markdownFilePath, "w")
-                        markdownFile.writelines(markDown)
-                        markdownFile.close()
+                        with open(markdownFilePath, "w") as markdownFile:
+                            markdownFile.writelines(markDown)
                         text.delete(1.0, END)
                         text.insert(1.0, markdownFileName + ' has been saved '
                                     'successfully in Markdown folder')
                 except Exception as e:
                     text.delete(1.0, END)
-                    print(str(e))
+                    print(e)
                     text.insert(1.0, 'Invalid document, please provide .html '
                                 'extension files')
             else:

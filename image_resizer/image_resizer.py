@@ -8,7 +8,7 @@ parser.add_argument(
     type=str,
     help='The file path of target image. '
     + 'ex. /home/user/example.jpeg.\nDefault value is "demo.jpeg"',
-    default=os.path.dirname(__file__) + '/demo.jpeg'
+    default=f'{os.path.dirname(__file__)}/demo.jpeg',
 )
 parser.add_argument(
     '-rw',
@@ -30,10 +30,10 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-img_path = args.f
 resized_width = args.rw
 resized_height = args.rh
 
+img_path = args.f
 if args.n:
     new_file = args.n
 else:
@@ -44,14 +44,13 @@ else:
 # and output current image ratio
 while True:
     img = cv2.imread(img_path)
-    if img is None:
-        print(
-            'Directory or file is not valid,'
-            + ' please enter a valid file directory ...')
-        img_path = str(input('Enter the image path again (absolute path): '))
-    else:
+    if img is not None:
         break
 
+    print(
+        'Directory or file is not valid,'
+        + ' please enter a valid file directory ...')
+    img_path = str(input('Enter the image path again (absolute path): '))
 original_width = img.shape[0]
 original_height = img.shape[1]
 print(f'Current image ratio is {original_width} x {original_height}')
@@ -62,13 +61,11 @@ while True:
     try:
         if resized_width > original_width:
             raise RuntimeError(
-                'Resized width must be no larger than original width'
-                + f' (< {original_width})'
+                f'Resized width must be no larger than original width (< {original_width})'
             )
         if resized_height > original_height:
             raise RuntimeError(
-                'Resized height must be no larger than original height'
-                + f' (< {original_height})'
+                f'Resized height must be no larger than original height (< {original_height})'
             )
         break
     except RuntimeError as err:

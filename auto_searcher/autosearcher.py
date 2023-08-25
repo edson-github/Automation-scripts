@@ -76,7 +76,7 @@ class Autosearch(threading.Thread):
         options.add_experimental_option('excludeSwitches', ['enable-automation'])
 
         browser = webdriver.Chrome(executable_path=self.chromepath, options=options)
-        url = browser.get("https://www.google.com/search?q=" + parastring + "&start=" + '0')
+        url = browser.get(f"https://www.google.com/search?q={parastring}&start=0")
 
         browser.get(url)
 

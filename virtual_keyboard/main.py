@@ -110,14 +110,14 @@ class Keypad(tk.Frame):
     def space(self):
         if self.target:
             text = self.get()
-            text = text + " "
+            text = f"{text} "
             self.clear()
             self.append(text)
 
     def tab(self):  # 5 spaces
         if self.target:
             text = self.get()
-            text = text + "     "
+            text = f"{text}     "
             self.clear()
             self.append(text)
 
@@ -125,7 +125,7 @@ class Keypad(tk.Frame):
         # TODO: copy to clipboad
         if self.target:
             self.memory = self.get()
-            self.label['text'] = 'memory: ' + self.memory
+            self.label['text'] = f'memory: {self.memory}'
             print(self.memory)
 
     def paste(self):

@@ -16,14 +16,12 @@ def get_info(sign, day):
     robj = requests.post(base_url, headers=headers, params=parameters)
     return_object = robj.json()
     if robj.status_code == 200:
-        res = f'''We see that you are {sign.capitalize()}. Your horoscope for the date
+        return f'''We see that you are {sign.capitalize()}. Your horoscope for the date
  {return_object['current_date']} says that : '{return_object["description"]}'\n
  You are compatible with {return_object["compatibility"]}. Your lucky color,
  number and time are {return_object["color"]}, {return_object["lucky_number"]}
  and {return_object["lucky_time"]} respectively.\n
  You are expected to be in '{return_object["mood"]}' mood.'''
-
-        return res
     else:
         return "Sorry! No result found."
 

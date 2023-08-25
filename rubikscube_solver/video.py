@@ -191,6 +191,16 @@ def scan():
         # Sets the amount of time to display a frame in milliseconds
         key = cv2.waitKey(10)
 
+    # indicate the scanning instruction
+    textInstruction = 'scan and rotate the cube with white on the top' \
+                      ' and green on the front (towards camera)'
+    textInstruction2 = 'the color of center brick is used as the side' \
+                       ' identifier (since the center brick does not ' \
+                       'move) '
+    textInstruction3 = 'you can scan as many times as you want'
+    textInstruction4 = 'the program will overwrite the old scan ' \
+                       'when same side is detected,' \
+                       ' press esc key get the solution '
     while not cameratesting:
 
         _, frame = cam.read()
@@ -228,20 +238,10 @@ def scan():
         draw_current_stickers(frame, state)
 
         # append amount of scanned sides
-        text = 'scanned sides: {}/6'.format(len(sides))
+        text = f'scanned sides: {len(sides)}/6'
         cv2.putText(frame, text, (20, 460), cv2.FONT_HERSHEY_TRIPLEX,
                     0.5, (255, 255, 0), 1, cv2.LINE_AA)
 
-        # indicate the scanning instruction
-        textInstruction = 'scan and rotate the cube with white on the top' \
-                          ' and green on the front (towards camera)'
-        textInstruction2 = 'the color of center brick is used as the side' \
-                           ' identifier (since the center brick does not ' \
-                           'move) '
-        textInstruction3 = 'you can scan as many times as you want'
-        textInstruction4 = 'the program will overwrite the old scan ' \
-                           'when same side is detected,' \
-                           ' press esc key get the solution '
         cv2.putText(frame, textInstruction, (20, 600),
                     cv2.FONT_HERSHEY_TRIPLEX, 0.5,
                     (255, 255, 0), 1, cv2.LINE_AA)
@@ -286,8 +286,7 @@ def scan():
                 print('V upper', vu)
                 print('V Lower', vl)
 
-                if color[len(colorcal)] == 'red'\
-                        or color[len(colorcal)] == 'orange':
+                if color[len(colorcal)] in ['red', 'orange']:
                     lower_hsv = np.array([0, sl, vl])
                     upper_hsv = np.array([hl, su, vu])
                     mask1 = cv2.inRange(hsv, lower_hsv, upper_hsv)
@@ -330,7 +329,7 @@ def scan():
                             defaultcal[color[len(colorcal)]][1][2])
 
                 if len(colorcal) < 6:
-                    text = 'calibrating {}'.format(color[len(colorcal)])
+                    text = f'calibrating {color[len(colorcal)]}'
                 cv2.putText(res, text, (20, 460), cv2.FONT_HERSHEY_TRIPLEX,
                             0.5, (255, 255, 255), 1, cv2.LINE_AA)
                 cv2.imshow('default', res)

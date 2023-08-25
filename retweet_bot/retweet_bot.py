@@ -33,7 +33,7 @@ def retweet(hashtag, retweetNum):
 def main():
     print("Tell me a hashtag to retweet: ")
     hashtag = input()
-    hashtag = '#' + hashtag
+    hashtag = f'#{hashtag}'
     print("Tell me how many times do I retweet: ")
     retweetNum = int(input())
     print("Retweet process started")

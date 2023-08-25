@@ -19,7 +19,7 @@ def news_brief():
     cast = casts[0]['href']
     # Remove the unwanted components in the link
     mp3 = cast.find("?")
-    mymp3 = cast[0:mp3]
+    mymp3 = cast[:mp3]
     # Play the mp3 using the pygame module
     mymp3 = requests.get(mymp3)
     voice = BytesIO()

@@ -33,7 +33,7 @@ def print_board():  # function to print the puzzle after solving
             if j == 8:
                 print(grid[i][j])
             else:
-                print(str(grid[i][j]) + " ", end="")
+                print(f"{str(grid[i][j])} ", end="")
 
 
 def solve_sudoku():

@@ -3,15 +3,11 @@ import sys
 
 
 def add_end_slash(path):
-    if path[-1] != "\\" or path[-1] != "/":
-        return path + "\\"
+    return path + "\\"
 
 
 def handle_ext(filename):
-    if (len(filename.split(".")) > 1):
-        return filename.split(".")[-1]
-    else:
-        return ""
+    return filename.split(".")[-1] if (len(filename.split(".")) > 1) else ""
 
 
 def main(path, new_name):

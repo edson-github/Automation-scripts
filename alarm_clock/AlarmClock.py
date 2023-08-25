@@ -34,9 +34,8 @@ def alarm(set_time):
 while True:
     alarm(set_time)
     x = input("Press y if you want the alarm to snooze: ")
-    if x == 'y':
-        t = int(input("Snooze time: "))
-        snooze(t)
-        print(f"The alarm will ring again in {t} min")
-    else:
+    if x != 'y':
         break
+    t = int(input("Snooze time: "))
+    snooze(t)
+    print(f"The alarm will ring again in {t} min")

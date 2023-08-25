@@ -56,7 +56,7 @@ class FaceMaskDetector(object):
             )
 
             for i, (images, annotations) in enumerate(self.data_loader):
-                images = list(image.to(self.device) for image in images)
+                images = [image.to(self.device) for image in images]
                 annotations = [
                     {
                         k: v.to(self.device)
@@ -65,7 +65,7 @@ class FaceMaskDetector(object):
                 ]
 
                 losses = self.model([images[0]], [annotations[0]])
-                loss = sum(loss for loss in losses.values())
+                loss = sum(losses.values())
 
                 optimizer.zero_grad()
                 loss.backward()
@@ -83,9 +83,7 @@ class FaceMaskDetector(object):
     def predict(self, images):
         self.model.to(self.device)
         self.model.eval()
-        preds = self.model(images)
-
-        return preds
+        return self.model(images)
 
     def save_model(self, path):
         torch.save(self.model.state_dict(), path)

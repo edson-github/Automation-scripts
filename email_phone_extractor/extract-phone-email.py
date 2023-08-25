@@ -23,26 +23,20 @@ text = ""
 if len(sys.argv) > 1:
     # Opening the file
     if os.path.exists(sys.argv[1]):
-        source_file = open(sys.argv[1], "r")
-        text = source_file.read()
-        source_file.close()
-    # Failikng if the file isn't found
+        with open(sys.argv[1], "r") as source_file:
+            text = source_file.read()
     else:
-        print("ERROR: " + sys.argv[1] + " not found")
+        print(f"ERROR: {sys.argv[1]} not found")
         exit(1)
-# No file, no usage
 else:
     print("Usage: extract-email-phone.py <source_file.txt>")
 
 phoneMatches = []
-emailMatches = []
 for groups in phoneRegex.findall(text):
     phoneNum = '-'.join([groups[1], groups[2], groups[3]])
     phoneMatches.append(phoneNum)
-for groups in emailRegex.findall(text):
-    emailMatches.append(groups[0])
-
-if (len(phoneMatches) > 0 or len(emailMatches)):
+emailMatches = [groups[0] for groups in emailRegex.findall(text)]
+if phoneMatches or len(emailMatches):
     matches = '\n'.join(phoneMatches) + '\n' + '\n'.join(emailMatches)
     pyperclip.copy(matches)
     print('Copied to clipboard!')

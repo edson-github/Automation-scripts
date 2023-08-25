@@ -37,8 +37,7 @@ def extract_urls(text):
         [list] -- [extracted urls]
     """
     url_regex_pattern = r"(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"
-    urls = re.findall(url_regex_pattern, text)
-    return urls
+    return re.findall(url_regex_pattern, text)
 
 
 def export_urls(urls, file_path):

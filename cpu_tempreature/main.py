@@ -50,11 +50,11 @@ def getDegree():
     degree = 0
     while degree == 0:
         degree = input("(F)ahrenheit, (C)elsius, (K)elvin: ")
-        if degree.upper() == "F" or degree.upper() == "FAHRENHEIT":
+        if degree.upper() in ["F", "FAHRENHEIT"]:
             degree = "Fahrenheit"
-        elif degree.upper() == "C" or degree.upper() == "CELSIUS":
+        elif degree.upper() in ["C", "CELSIUS"]:
             degree = "Celsius"
-        elif degree.upper() == "K" or degree.upper() == "KELVIN":
+        elif degree.upper() in ["K", "KELVIN"]:
             degree = "Kelvin"
     return degree
 
@@ -85,7 +85,7 @@ def dispTemp(temp, degree, minutes, seconds):
     print("\rCPU Temperature: ", temp, degree, end=' ')
     print("(Time Running: ", minutes, ":", end=' ')
     if seconds < 10:
-        print("0" + str(seconds), ")", end=' ')
+        print(f"0{str(seconds)}", ")", end=' ')
     else:
         print(seconds, ")", end=' ')
 
@@ -96,9 +96,7 @@ def convertDegree(degree, temp):
         return temp
     if degree == "Kelvin":
         temp = temp + 273.15
-        return temp
-    else:
-        return temp
+    return temp
 
 
 def main():
@@ -174,7 +172,7 @@ def main():
     try:
         while True:
             temp = getTemp(hardware)
-            tick = int(time.time()) - int(bseconds)
+            tick = int(time.time()) - bseconds
             seccount = int(seccount) + int(tick) - int(seclast)
             seclast = tick
             if seccount >= 60:
@@ -183,7 +181,7 @@ def main():
             seconds = int(tick) - (60 * int(minutes))
             temp = float(temp)
             if prevtemp > 20 and temp < 18:
-                temp = temp * 10
+                temp *= 10
             prevtemp = temp
             temp = convertDegree(degree, temp)
             if avg == 0:
@@ -198,8 +196,6 @@ def main():
                 break
             time.sleep(1)
             sys.stdout.flush()
-    # When Ctrl-C is pressed, show summary data
-
     except KeyboardInterrupt:
         pass
 

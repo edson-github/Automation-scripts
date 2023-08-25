@@ -33,7 +33,7 @@ def play_music():
         p.stop()
     except Exception:
         pass
-    p = vlc.MediaPlayer(r"file:///" + music_path)
+    p = vlc.MediaPlayer(f"file:///{music_path}")
     # Start music
     p.play()
     # Change play button state to disabled

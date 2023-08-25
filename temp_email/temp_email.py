@@ -35,7 +35,7 @@ class Maildrop(object):
 
         self._filter = message_filter
         self._seen = set()
-        self._emails = list()
+        self._emails = []
         self._client = requests.Session()
         self._client.headers.update({
             "Content-Type": "application/json",
@@ -81,10 +81,10 @@ class Maildrop(object):
             self._seen.add(email_id)
             email["body"] = self._get_body(email_id)
             if self._filter:
-                if any([
+                if any(
                     self._filter in email.get(field, "")
                     for field in self._search_fields
-                ]):
+                ):
                     new_emails.append(email)
             else:
                 new_emails.append(email)
@@ -102,8 +102,7 @@ class Maildrop(object):
         print("to stop monitoring loop, press & hold ctrl+c")
         while True:
             try:
-                emails = self.get_emails()
-                if emails:
+                if emails := self.get_emails():
                     print(f"found {len(emails)} new emails")
                     for email in emails:
                         print("email_id:", email.get("id"))

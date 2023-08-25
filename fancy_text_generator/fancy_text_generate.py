@@ -2,7 +2,7 @@
 import re
 
 class fancy(object):
-    def bold(text):
+    def bold(self):
         fancy_bold = {
             'a': '\uD835\uDD86'.encode('utf-16', 'surrogatepass').decode('utf-16'),
             'b': '\uD835\uDD87'.encode('utf-16', 'surrogatepass').decode('utf-16'),
@@ -58,11 +58,10 @@ class fancy(object):
             'Z': '\uD835\uDD85'.encode('utf-16', 'surrogatepass').decode('utf-16')
         }
         pattern = re.compile(r'(' + '|'.join(fancy_bold.keys()) + r')')
-        result = pattern.sub(lambda x: fancy_bold[x.group()], text)
-        return (result)
+        return pattern.sub(lambda x: fancy_bold[x.group()], self)
 
 
-    def light(text):
+    def light(self):
         fancy_light = {
             'a': '\uD835\uDD1E'.encode('utf-16', 'surrogatepass').decode('utf-16'),
             'b': '\uD835\uDD1F'.encode('utf-16', 'surrogatepass').decode('utf-16'),
@@ -118,11 +117,10 @@ class fancy(object):
             'Z': '\u2128'.encode('utf-16', 'surrogatepass').decode('utf-16'),
         }
         pattern = re.compile(r'(' + '|'.join(fancy_light.keys()) + r')')
-        result = pattern.sub(lambda x: fancy_light[x.group()], text)
-        return (result)
+        return pattern.sub(lambda x: fancy_light[x.group()], self)
 
 
-    def box(text):
+    def box(self):
         fancy_box = {
             'a': '\uD83C\uDD70'.encode('utf-16', 'surrogatepass').decode('utf-16'),
             'b': '\uD83C\uDD71'.encode('utf-16', 'surrogatepass').decode('utf-16'),
@@ -178,11 +176,10 @@ class fancy(object):
             'Z': '\uD83C\uDD89'.encode('utf-16', 'surrogatepass').decode('utf-16')
         }
         pattern = re.compile(r'(' + '|'.join(fancy_box.keys()) + r')')
-        result = pattern.sub(lambda x: fancy_box[x.group()], text)
-        return result
+        return pattern.sub(lambda x: fancy_box[x.group()], self)
 
 
-    def sorcerer(text):
+    def sorcerer(self):
         fancy_sorcerer = {
             'a': '\u01DF',
             'b': '\u026E',
@@ -239,12 +236,11 @@ class fancy(object):
 
         }
         pattern = re.compile(r'(' + '|'.join(fancy_sorcerer.keys()) + r')')
-        result = pattern.sub(lambda x: fancy_sorcerer[x.group()], text)
-        return (result)
+        return pattern.sub(lambda x: fancy_sorcerer[x.group()], self)
 
 
 ch = 'y'
-while(ch=='y' or ch=='Y'):
+while ch in {'y', 'Y'}:
     text = input('Enter the text you want to make fancy:')
     print(fancy.box(text))
     print(fancy.sorcerer(text))

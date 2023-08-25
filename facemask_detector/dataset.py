@@ -26,8 +26,8 @@ class FaceMaskDataset(object):
         return len(self.images)
 
     def __getitem__(self, idx):
-        img = "maksssksksss" + str(idx) + ".png"
-        label = "maksssksksss" + str(idx) + ".xml"
+        img = f"maksssksksss{str(idx)}.png"
+        label = f"maksssksksss{str(idx)}.xml"
 
         img_path = os.path.join("./data/images/", img)
         label_path = os.path.join("./data/annotations/", label)
@@ -58,12 +58,7 @@ class FaceMaskDataset(object):
 
             img_idx = torch.tensor([image_idx])
 
-            target = {}
-            target["boxes"] = boxes
-            target["labels"] = labels
-            target["image_id"] = img_idx
-
-            return target
+            return {"boxes": boxes, "labels": labels, "image_id": img_idx}
 
     def get_label(self, obj):
         if obj.find("name").text == "with_mask":

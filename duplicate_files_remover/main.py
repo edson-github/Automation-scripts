@@ -33,9 +33,6 @@ def get_hash(filename):
 def hashtable(files):
     if not isinstance(files, list):
         files = [files]
-    else:
-        pass
-
     hash_identifier = []
     for f in files:
         try:
@@ -80,9 +77,6 @@ if __name__ == '__main__':
     if not os.path.exists(folder):
         print('Folder does not exist.')
         sys.exit(1)
-    else:
-        pass
-
     duplicates = list_duplicates(folder)
     delete = input('\n[!] Do you want to delete the duplicates (y/n):')
     print('\n')

@@ -8,8 +8,7 @@ import progressbar
 def getcount():
     rownums = input("How many email addresses?: ")
     try:
-        rowint = int(rownums)
-        return rowint
+        return int(rownums)
     except ValueError:
         print("Please enter an integer value")
         return getcount()
@@ -30,8 +29,7 @@ def make_email():
     accountlen = random.randint(1, 20)
     finalacc = ''.join(random.choice(string.ascii_lowercase + string.digits)
                        for _ in range(accountlen))
-    finale = finalacc + "@" + finaldom + "." + finalext
-    return finale
+    return f"{finalacc}@{finaldom}.{finalext}"
 
 
 # Take the total count of emails and pass them to getcount()

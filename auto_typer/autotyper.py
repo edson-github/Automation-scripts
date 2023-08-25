@@ -88,7 +88,7 @@ class AutoTyper:
         else:
             print('please define an area to OCR before trying to print')
 
-    def output(delaytime: float):
+    def output(self):
 
         try:
             paraString = pytesseract.image_to_string(AutoTyper.pImage)
@@ -101,7 +101,7 @@ class AutoTyper:
         for i in range(length):
             keyboard.press(paraString[i])
             keyboard.release(paraString[i])
-            time.sleep(delaytime)
+            time.sleep(self)
 
 
 def start(delaytime: float):

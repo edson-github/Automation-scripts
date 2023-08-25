@@ -9,7 +9,7 @@ def fork():
     accOrOrg = input(
         "Fork to your profile or an organization"
         "(type org for organization, acc for profile): ")
-    while (accOrOrg != "acc" and accOrOrg != "org"):
+    while accOrOrg not in ["acc", "org"]:
         accOrOrg = input("invalid answer: acc or org: ")
     username = input("Your github username: ")
     password = input("Your github password: ")
@@ -26,7 +26,7 @@ def fork():
             org.create_fork(g.get_repo(repo))
         clone(username, repo)
     except Exception as e:
-        print("ERROR: " + str(e))
+        print(f"ERROR: {str(e)}")
         print("You can try again or click ctrl-c and exit")
         fork()
 
@@ -40,15 +40,31 @@ def clone(repo):
         if len(location.strip()) != 0:
             arr = repo.split("/")
             subprocess.run(
-                "git clone https://github.com/" + repo + ".git " + location
-                + "\\" + arr[0] + "\\" + arr[1], shell=True, check=True)
+                (
+                    (
+                        (
+                            (
+                                f"git clone https://github.com/{repo}.git {location}"
+                                + "\\"
+                            )
+                            + arr[0]
+                        )
+                        + "\\"
+                    )
+                    + arr[1]
+                ),
+                shell=True,
+                check=True,
+            )
         else:
             subprocess.run(
-                "git clone https://github.com/" + repo + ".git",
-                shell=True, check=True)
+                f"git clone https://github.com/{repo}.git",
+                shell=True,
+                check=True,
+            )
 
     except Exception as e:
-        print("ERROR: " + str(e))
+        print(f"ERROR: {str(e)}")
         fnc = input(
             "To start from the forking type fork, to start from"
             "cloning type clone, to exit press ctrl-c: ").lower()

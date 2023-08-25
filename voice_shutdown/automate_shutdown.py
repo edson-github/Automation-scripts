@@ -29,17 +29,16 @@ def TakeCommand():
     return Query
 
 
-while (True):
+while True:
     if __name__ == '__main__':
         Query = TakeCommand().lower()
 
-    if "shut down" or "shutdown" in Query:
-        speak("Do you want to shutdown your pc ")
-        Query2 = TakeCommand().lower()
+    speak("Do you want to shutdown your pc ")
+    Query2 = TakeCommand().lower()
 
-        if "yes" in Query2:
-            speak("ok shutdowning...")
-            time.sleep(3)
-            os.system("shutdown /s /t 0")
-        elif "no" in Query2:
-            speak("Ok")
+    if "yes" in Query2:
+        speak("ok shutdowning...")
+        time.sleep(3)
+        os.system("shutdown /s /t 0")
+    elif "no" in Query2:
+        speak("Ok")

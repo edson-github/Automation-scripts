@@ -5,15 +5,15 @@ import subprocess
 # function that returns time in seconds
 def time_manipulation(time):
     if len(time) == 1:
-        time = "00:00:0" + time
+        time = f"00:00:0{time}"
     if len(time) == 2:
-        time = "00:00:" + time
+        time = f"00:00:{time}"
     if len(time) == 4:
-        time = "00:0" + time
+        time = f"00:0{time}"
     if len(time) == 5:
-        time = "00:" + time
+        time = f"00:{time}"
     if len(time) == 7:
-        time = "0" + time
+        time = f"0{time}"
     h, m, s = time.split(':')
     time = int(h) * 3600 + int(m) * 60 + int(s)
     return time
@@ -26,7 +26,7 @@ end_time = input("Enter end time of the video clip in HH:MM:SS|H:MM:SS|MM:SS|M:S
 end_time = time_manipulation(end_time)  # end time in seconds
 duration = end_time - start_time
 Output_file_name = input("Enter your output video name: ")
-Output_file_name = Output_file_name + '.mp4'
+Output_file_name = f'{Output_file_name}.mp4'
 
 # Error-1
 if duration <= 0:

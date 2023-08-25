@@ -31,16 +31,12 @@ def scan_image(img_file_path):
         G = colorarr[1]
         R = colorarr[2]
 
-        if (R > G):
-            if (B > R):
-                fincol = 'blue'
-            else:
-                fincol = 'red'
+        if (R > G) and (B > R) or R <= G and (B > G):
+            fincol = 'blue'
+        elif R > G:
+            fincol = 'red'
         else:
-            if (B > G):
-                fincol = 'blue'
-            else:
-                fincol = 'green'
+            fincol = 'green'
         if (len(app) == 3):
             shapes1['Triangle'] = [fincol, Area, cX, cY]
         elif (len(app) == 4):
@@ -129,19 +125,19 @@ if __name__ == '__main__':
 
     total_sam = 1
 
-    while(total_sam != 0 ):
+    while (total_sam != 0 ):
 
         curr_dir_path = os.getcwd()
-        print('Currently working in '+ curr_dir_path)
+        print(f'Currently working in {curr_dir_path}')
 
-        img_dir_path = curr_dir_path + '/Samples/'
+        img_dir_path = f'{curr_dir_path}/Samples/'
 
 
         file_num = total_sam
         total_sam-=1
-        img_file_path = img_dir_path + 'Sample' + str(file_num) + '.png'
+        img_file_path = f'{img_dir_path}Sample{file_num}.png'
 
-        if os.path.exists('Samples/Sample' + str(file_num) + '.png'):
+        if os.path.exists(f'Samples/Sample{file_num}.png'):
             print('\nFound Sample' + str(file_num) + '.png')
 
         else:

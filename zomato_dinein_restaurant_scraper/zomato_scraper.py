@@ -15,7 +15,7 @@ browser.get(url)
 
 
 # -- ITERATING THROUGH THE PAGE TO GET ALL THE RESTAURANTS --
-for i in range(0, 25):
+for _ in range(0, 25):
     browser.execute_script("window.scrollTo(0, document.body.scrollHeight*0.81);")
     time.sleep(5)
     browser.execute_script("window.scrollTo(0, document.body.scrollHeight*0.86);")

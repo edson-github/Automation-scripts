@@ -11,7 +11,7 @@ def crop():
 
     # Calculating size of the original image in pixels for reference
     width, height = img.size
-    print('the old width is: ' + str(width) + ' and the old height is: ' + str(height))
+    print(f'the old width is: {str(width)} and the old height is: {str(height)}')
 
     # Taking left, top, right, bottom points for the cropped image as input
     # Image pixels coorginate grid: X increases from left to right, Y increases from top to bottom

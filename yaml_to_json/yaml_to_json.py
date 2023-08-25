@@ -9,8 +9,7 @@ def get_yaml_data(yaml_name=None):
 
     try:
         with open(yaml_name, "r+") as f:
-            yaml_data = YAML().load(f)
-            return yaml_data
+            return YAML().load(f)
     except:  # noqa
         print("Invalid input enter a valid yaml file name e.g. example.yaml")
         yaml_data = get_yaml_data()

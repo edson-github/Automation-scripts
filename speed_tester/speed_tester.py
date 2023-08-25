@@ -12,10 +12,7 @@ def ping_google():
             f"ping -{option} 10 google.com",
             shell=True, universal_newlines=True
         )
-        if "unreachable" in res:
-            return False
-        else:
-            return res
+        return False if "unreachable" in res else res
     except Exception:
         return False
 
@@ -35,8 +32,7 @@ def test_speed():
         upload_speed /= 1000
         unit_index += 1
     upload_units = units[unit_index]
-    ping = ping_google()
-    if ping:
+    if ping := ping_google():
         times = re.findall(r"(?<=time=)\d+\.?\d*", ping)
         times = [float(time) for time in times]
         av_ping = sum(times) / len(times)

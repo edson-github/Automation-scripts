@@ -43,9 +43,6 @@ def plot_result(image_tensor, annotations, savename, ucb=0.9):
             )
 
             ax.add_patch(rect)
-        else:
-            pass
-
     plt.axis("off")
     plt.savefig(f"./results/{savename}.png")
 

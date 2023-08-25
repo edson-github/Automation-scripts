@@ -92,7 +92,7 @@ def quickSort(array, left, right, drawRect):
                          else RED for x in range(len(array))])
 
         time.sleep(0.5)
-    drawRect(array, [GREEN for x in range(len(array))])
+    drawRect(array, [GREEN for _ in range(len(array))])
 
 
 # actually perform quicksort

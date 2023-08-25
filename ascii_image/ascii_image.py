@@ -17,11 +17,7 @@ inputImagePath = args.inputImage
 outputPath = args.outputFile
 widd = args.width
 
-asci = r"@%#*+=-:. "[::1]
-
-if args.colorInvert:
-    asci = r"@%#*+=-:. "[:: - 1]
-
+asci = r"@%#*+=-:. "[:: - 1] if args.colorInvert else r"@%#*+=-:. "[::1]
 # input image
 img = Image.open(inputImagePath)
 
@@ -37,15 +33,11 @@ def avg(imggg):
 
 
 # opening file
-f = open(outputPath, "w")
-
-for j in range(height):
-    for i in range(wid):
-        img1 = img.crop((i, int(j), i + 1, int((j + 1))))
-        f.write(asci[int((avg(img1) * 9) / 255)])
-        print(asci[int((avg(img1) * 9) / 255)], end="")
-    print("\n", end="")
-    f.write("\n")
-
-
-f.close()
+with open(outputPath, "w") as f:
+    for j in range(height):
+        for i in range(wid):
+            img1 = img.crop((i, int(j), i + 1, int((j + 1))))
+            f.write(asci[int((avg(img1) * 9) / 255)])
+            print(asci[int((avg(img1) * 9) / 255)], end="")
+        print("\n", end="")
+        f.write("\n")

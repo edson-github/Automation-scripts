@@ -20,8 +20,7 @@ def main():
     max_complexity = int(sys.argv[1])
     ok = True
     for py_source in collect_sources():
-        error = process(py_source, max_complexity)
-        if error:
+        if error := process(py_source, max_complexity):
             ok = False
             print(error)
     if not ok:

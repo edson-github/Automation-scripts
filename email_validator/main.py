@@ -43,8 +43,7 @@ def write_header_row():
         'N': "Success",
         'O': "Message"}
 
-    for column in labels:
-        label = labels[column]
+    for column, label in labels.items():
         sheet[f'{column}1'].font = header_row_font
         sheet[f'{column}1'] = label
     wb.save('result.xlsx')

@@ -10,12 +10,9 @@ previous_data = []
 
 
 def send_msg(text):
-    token = "YOUR-TOKEN-HERE"
     chat_id = "GROUP-CHAT-ID-HERE"
-    url_req = (
-        'https://api.telegram.org/'
-        'bot' + token + '/sendMessage' + '?chat_id'
-        '=' + chat_id + "&text=" + text)
+    token = "YOUR-TOKEN-HERE"
+    url_req = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={text}'
     results = requests.get(url_req)
     print(results.json())
 
@@ -25,7 +22,7 @@ covid = Covid(source="worldometers")
 India_cases = covid.get_status_by_country_name("india")
 stat = (
     "\n".join(
-        "{} : \t{}".format(k, v)
+        f"{k} : \t{v}"
         for k, v in India_cases.items()
         if not k.startswith(("population", "total"))
     )
@@ -38,7 +35,7 @@ while 1:
     India_cases = covid.get_status_by_country_name("india")
     stat = (
         "\n".join(
-            "{} : \t{}".format(k, v)
+            f"{k} : \t{v}"
             for k, v in India_cases.items()
             if not k.startswith(("population", "total"))
         )

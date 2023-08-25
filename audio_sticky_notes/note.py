@@ -22,18 +22,20 @@ def rec(duration):
     recording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
     sd.wait()
 
-    return sf.write("assets\\recordings\\AudioNote{}.flac".format(str(sys.argv[1])), recording, fs)
+    return sf.write(
+        f"assets\\recordings\\AudioNote{str(sys.argv[1])}.flac", recording, fs
+    )
 
 
 def playback():
-    filename = "assets\\recordings\\AudioNote{}.flac".format(str(sys.argv[1]))
+    filename = f"assets\\recordings\\AudioNote{str(sys.argv[1])}.flac"
     data, fs = sf.read(filename, dtype='float32')
     sd.play(data, fs)
     sd.wait()
 
 
 master = tkinter.Tk()
-master.title("Audio Note {}".format(str(sys.argv[1])))
+master.title(f"Audio Note {str(sys.argv[1])}")
 
 tkinter.Label(master, text=" Record for: (sec) ").grid(row=0, sticky=tkinter.W, rowspan=5, padx=15)
 

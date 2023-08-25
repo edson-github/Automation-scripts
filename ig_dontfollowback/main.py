@@ -39,12 +39,11 @@ for following in profile.get_followees():
     username = following.username
     following_list.append(username)
 
-# Find people who don't follow back
-not_following_back = []
-for following in following_list:
-    if following not in followers_list:
-        not_following_back.append(following)
-
+not_following_back = [
+    following
+    for following in following_list
+    if following not in followers_list
+]
 print(not_following_back)
 
 choice = input("Would you like to save the people who don't follow you as a file? (y/n): ")

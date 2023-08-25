@@ -17,8 +17,8 @@ def sin():
     num = float(e.get())
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "sin(" + str(num) + ")")
-    e.insert(0, "sin(" + str(num) + ")")
+    e2.insert(0, f"sin({num})")
+    e.insert(0, f"sin({num})")
 
 
 def cos():
@@ -28,8 +28,8 @@ def cos():
     num = float(e.get())
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "cos(" + str(num) + ")")
-    e.insert(0, "cos(" + str(num) + ")")
+    e2.insert(0, f"cos({num})")
+    e.insert(0, f"cos({num})")
 
 
 def tan():
@@ -39,8 +39,8 @@ def tan():
     num = float(e.get())
     e2.delete(0, len(e2.get()))
     e.delete(0, len(e.get()))
-    e2.insert(0, "tan(" + str(num) + ")")
-    e.insert(0, "tan(" + str(num) + ")")
+    e2.insert(0, f"tan({num})")
+    e.insert(0, f"tan({num})")
 
 
 def tan_inv():
@@ -50,8 +50,8 @@ def tan_inv():
     num = float(e.get())
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "tan^-1(" + str(num) + ")")
-    e.insert(0, "tan^-1(" + str(num) + ")")
+    e2.insert(0, f"tan^-1({num})")
+    e.insert(0, f"tan^-1({num})")
 
 
 def cos_inv():
@@ -61,8 +61,8 @@ def cos_inv():
     num = float(e.get())
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "cos^-1(" + str(num) + ")")
-    e.insert(0, "cos^-1(" + str(num) + ")")
+    e2.insert(0, f"cos^-1({num})")
+    e.insert(0, f"cos^-1({num})")
 
 
 def sin_inv():
@@ -72,8 +72,8 @@ def sin_inv():
     num = float(e.get())
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "sin^-1(" + str(num) + ")")
-    e.insert(0, "sin^-1(" + str(num) + ")")
+    e2.insert(0, f"sin^-1({num})")
+    e.insert(0, f"sin^-1({num})")
 
 
 def exp():
@@ -83,8 +83,8 @@ def exp():
     sign = "exp"
     e.delete(0, len(e.get()))
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "E" + num)
-    e.insert(0, "E" + num)
+    e2.insert(0, f"E{num}")
+    e.insert(0, f"E{num}")
 
 
 def fact():
@@ -102,9 +102,9 @@ def sqrt():
     global sign
     sign = "sqrt"
     e2.delete(0, len(e2.get()))
-    e2.insert(0, "sqrt(" + str(num) + ")")
+    e2.insert(0, f"sqrt({num})")
     e.delete(0, len(e.get()))
-    e.insert(0, "sqrt(" + str(num) + ")")
+    e.insert(0, f"sqrt({num})")
 
 
 def cube():
@@ -113,7 +113,7 @@ def cube():
     global sign
     sign = "cube"
     e2.delete(0, len(e2.get()))
-    e2.insert(len(e.get()), str(num) + "^3")
+    e2.insert(len(e.get()), f"{num}^3")
     e.delete(0, len(e.get()))
     e.insert(len(e.get()), "^3")
 
@@ -125,7 +125,7 @@ def n_pow():
     sign = "n_pow"
     e2.delete(0, len(e2.get()))
     e.delete(0, len(e.get()))
-    e2.insert(0, str(f_num) + " ^ ")
+    e2.insert(0, f"{str(f_num)} ^ ")
 
 
 def inv():
@@ -143,7 +143,7 @@ def rem():
     f_num = float(e.get())
     global sign
     sign = "rem"
-    e2.insert(0, str(f_num) + " % ")
+    e2.insert(0, f"{f_num} % ")
     e.delete(0, len(e.get()))
 
 
@@ -163,7 +163,7 @@ def addition():
     sign = "addition"
     global f_num
     f_num = float(first_num)
-    e2.insert(0, str(f_num) + " + ")
+    e2.insert(0, f"{f_num} + ")
     e.delete(0, len(e.get()))
 
 
@@ -174,7 +174,7 @@ def subtraction():
     sign = "subtraction"
     global f_num
     f_num = float(first_num)
-    e2.insert(0, str(f_num) + " - ")
+    e2.insert(0, f"{f_num} - ")
     e.delete(0, len(e.get()))
 
 
@@ -185,7 +185,7 @@ def multiplication():
     sign = "multiplication"
     global f_num
     f_num = float(first_num)
-    e2.insert(0, str(f_num) + " * ")
+    e2.insert(0, f"{f_num} * ")
     e.delete(0, len(e.get()))
 
 
@@ -196,7 +196,7 @@ def division():
     sign = "division"
     global f_num
     f_num = float(first_num)
-    e2.insert(0, str(f_num) + " / ")
+    e2.insert(0, f"{f_num} / ")
     e.delete(0, len(e.get()))
 
 
@@ -208,16 +208,16 @@ def equal():
         if sign == "addition":
             result = f_num + float(second_num)
             e.insert(0, result)
-            e2.insert(len(e2.get()), " = " + str(result))
+            e2.insert(len(e2.get()), f" = {str(result)}")
         if sign == "subtraction":
             result = f_num - float(second_num)
             e.insert(0, result)
-            e2.insert(len(e2.get()), " = " + str(result))
+            e2.insert(len(e2.get()), f" = {str(result)}")
 
         if sign == "multiplication":
             result = f_num * float(second_num)
             e.insert(0, result)
-            e2.insert(len(e2.get()), " = " + str(result))
+            e2.insert(len(e2.get()), f" = {str(result)}")
 
         if sign == "division":
             if int(second_num) == 0:
@@ -226,92 +226,86 @@ def equal():
             else:
                 result = f_num / int(second_num)
                 e.insert(0, result)
-                e2.insert(len(e2.get()), " = " + str(result))
+                e2.insert(len(e2.get()), f" = {str(result)}")
 
         if sign == "sin":
             # print(math.sin(num))
             result = math.sin(math.radians(num))
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "sin(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"sin({str(num)}) = {str(result)}")
 
         if sign == "cos":
             result = math.cos(math.radians(num))
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "cos(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"cos({str(num)}) = {str(result)}")
 
         if sign == "tan":
             result = math.tan(math.radians(num))
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "tan(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"tan({str(num)}) = {str(result)}")
 
         if sign == "n_pow":
             result = float(f_num) ** int(second_num)
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(
-                0,
-                str(f_num) + " ^ " + str(second_num) + " = " + str(result)
-            )
+            e2.insert(0, f"{str(f_num)} ^ {str(second_num)} = {str(result)}")
 
         if sign == "exp":
             result = math.exp(num)
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "E" + num + " = " + str(result))
+            e2.insert(0, f"E{num} = {str(result)}")
 
         if sign == "fact":
             result = math.factorial(num)
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, str(num) + "! = " + str(result))
+            e2.insert(0, f"{str(num)}! = {str(result)}")
 
         if sign == "sqrt":
             result = math.sqrt(num)
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "sqrt(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"sqrt({str(num)}) = {str(result)}")
 
         if sign == "inv":
             result = 1 / num
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(0, str(num) + "^(-1) = " + str(result))
+            e2.insert(0, f"{str(num)}^(-1) = {str(result)}")
 
         if sign == "rem":
             result = f_num % int(second_num)
             e.insert(0, result)
             e2.delete(0, len(e2.get()))
-            e2.insert(
-                0,
-                str(f_num) + " % " + str(second_num) + " = " + str(result)
-            )
+            e2.insert(0, f"{str(f_num)} % {str(second_num)} = {str(result)}")
 
         if sign == "sin_inv":
             result = math.degrees(math.asin(num))
-            e.insert(0, str(result) + " (degree)")
+            e.insert(0, f"{str(result)} (degree)")
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "sin^-1(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"sin^-1({str(num)}) = {str(result)}")
 
         if sign == "cos_inv":
             result = math.degrees(math.acos(num))
-            e.insert(0, str(result) + " (degree)")
+            e.insert(0, f"{str(result)} (degree)")
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "cos^-1(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"cos^-1({str(num)}) = {str(result)}")
 
         if sign == "tan_inv":
             result = math.degrees(math.atan(num))
-            e.insert(0, str(result) + " (degree)")
+            e.insert(0, f"{str(result)} (degree)")
             e2.delete(0, len(e2.get()))
-            e2.insert(0, "tan^-1(" + str(num) + ") = " + str(result))
+            e2.insert(0, f"tan^-1({str(num)}) = {str(result)}")
 
         if sign == "cube":
             result = num**3
             e.insert(0, str(result))
             e2.delete(0, len(e2.get()))
-            e2.insert(0, str(num) + "^3 = " + str(result))
+            e2.insert(0, f"{str(num)}^3 = {str(result)}")
 
     except Exception as ex:
         print(ex)
@@ -336,8 +330,6 @@ def create_frame(mode):
         frame.destroy()
     except Exception as ex:
         print(ex)
-        pass
-
     frame = tk.Label(root, background="sky blue")
     frame.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
 

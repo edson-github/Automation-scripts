@@ -63,16 +63,8 @@ class second(Thread):
     def run(self):
         command = "python ../youtube_downloader/ytdownloader.py "
         url = urlEntry.get()
-        ytPath = ""
-
-        path = pathEntry.get()
-        if path:
-            ytPath = " -p " + path
-
-        if not ytPath:
-            runPy = command + " " + url
-        else:
-            runPy = command + " " + url + ytPath
+        ytPath = f" -p {path}" if (path := pathEntry.get()) else ""
+        runPy = f"{command} {url}" if not ytPath else f"{command} {url}{ytPath}"
         os.system(runPy)
 
         downloadButton.set("Download Video")

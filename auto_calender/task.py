@@ -24,5 +24,4 @@ class Task:
                 except Exception:
                     pass
         hour_string = str(arr[0]) + str(arr[1])
-        int_hour = int(hour_string)
-        return int_hour
+        return int(hour_string)

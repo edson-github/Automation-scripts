@@ -15,8 +15,8 @@ else:
 
 # Add Banner
 print("-" * 50)
-print("Scanning Target: " + target)
-print("Scanning started at:" + str(datetime.now()))
+print(f"Scanning Target: {target}")
+print(f"Scanning started at:{str(datetime.now())}")
 print("-" * 50)
 
 try:
@@ -28,7 +28,7 @@ try:
         # returns an error indicator
         result = s.connect_ex((target, port))
         if result == 0:
-            print("Port {} is open".format(port))
+            print(f"Port {port} is open")
         s.close()
 
 except KeyboardInterrupt:

@@ -140,7 +140,7 @@ class GUI:
         self.window = sg.Window("Zoom", self.layout, size=(600, 200))
         while True:
             self.event, self.values = self.window.read()
-            if self.event == sg.WIN_CLOSED or self.event == "Exit":
+            if self.event in [sg.WIN_CLOSED, "Exit"]:
                 break
             elif self.event == "submit":
                 return self.values

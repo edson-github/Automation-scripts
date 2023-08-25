@@ -17,15 +17,15 @@ class ColorDetection:
         """Get the name of the color based on the hue. :returns: string."""
         (h, s, v) = hsv
         for color in cal:
-            if color == 'red' or color == 'orange':
+            if color in ['red', 'orange']:
                 if (h < cal[color][1][0] or h > cal[color][0][0])\
-                        and s in range(cal[color][1][1], cal[color][0][1])\
-                        and v in range(
+                            and s in range(cal[color][1][1], cal[color][0][1])\
+                            and v in range(
                         cal[color][1][2], cal[color][0][2]):
                     return color
             elif h in range(cal[color][1][0], cal[color][0][0])\
-                    and s in range(cal[color][1][1], cal[color][0][1])\
-                    and v in range(
+                        and s in range(cal[color][1][1], cal[color][0][1])\
+                        and v in range(
                     cal[color][1][2], cal[color][0][2]):
                 return color
 

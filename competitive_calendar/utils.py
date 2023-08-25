@@ -7,8 +7,7 @@ def get_datetime(utc_time):
     """
     Convert date string to datetime object
     """
-    utc = datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
-    return utc
+    return datetime.strptime(utc_time, '%Y-%m-%dT%H:%M:%S.%fZ')
 
 
 def get_local_timestamp(utc, from_zone=None):
@@ -21,17 +20,14 @@ def get_local_timestamp(utc, from_zone=None):
     to_zone = tz.tzlocal()  # Auto-detect zone
 
     utc = utc.replace(tzinfo=from_zone)
-    local_time = utc.astimezone(to_zone)    # Convert time zone
-
-    return local_time
+    return utc.astimezone(to_zone)
 
 
 def fetchContests():
     API_URL = "https://www.kontests.net/api/v1/all"
 
     req = requests.get(API_URL)
-    data = req.json()
-    return data
+    return req.json()
 
 
 def getContests(today=False):
@@ -39,9 +35,10 @@ def getContests(today=False):
     Returns fetched contests in desired day-wise format
     """
     TOMORROW = get_local_timestamp(
-        (datetime.today() + timedelta(days=1))
-        .replace(hour=0, minute=0, second=0, microsecond=0),
-        from_zone=tz.tzlocal()
+        (datetime.now() + timedelta(days=1)).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ),
+        from_zone=tz.tzlocal(),
     )
     contests = fetchContests()
     calendar = {}
@@ -58,12 +55,12 @@ def getContests(today=False):
 
         if local_end_time <= TOMORROW:  # If contest has already ended, skip
             continue
-        elif local_start_time <= TOMORROW and local_end_time > TOMORROW:
+        elif local_start_time <= TOMORROW:
             # If contest is open today
-            key = "Today ({})".format(datetime.today().strftime("%d %b '%y"))
-        else:   # Future contests
-            if today:
-                return calendar
+            key = f"""Today ({datetime.now().strftime("%d %b '%y")})"""
+        elif today:
+            return calendar
+        else:
             key = local_start_time.strftime("%d %B, %Y")
 
         if key not in calendar:

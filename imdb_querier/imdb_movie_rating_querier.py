@@ -14,7 +14,9 @@ try:
     movie_data = search_result[0].__dict__
     vote_details = imdb_object.get_movie_vote_details(movie_data["movieID"])
     movie_rating_stats = vote_details["data"]["demographics"]["imdb users"]
-    print("Rating: %s, based on %s votes" % (movie_rating_stats["rating"], movie_rating_stats["votes"]))
+    print(
+        f'Rating: {movie_rating_stats["rating"]}, based on {movie_rating_stats["votes"]} votes'
+    )
 
 except KeyError:
     print("Movie ratings data is not available")

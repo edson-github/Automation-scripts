@@ -48,7 +48,7 @@ class App():
             self.state = "S"
             print('recording complete')
             self.filename = input('\nPlease Enter required Filename\n')
-            self.filename = self.filename + ".wav"
+            self.filename = f"{self.filename}.wav"
             wf = wave.open(self.filename, 'wb')
             wf.setnchannels(self.channels)
             wf.setsampwidth(self.p.get_sample_size(self.sample_format))
@@ -58,7 +58,7 @@ class App():
 
     def pause(self):
 
-        if (self.state == "R" or self.state == "Res"):
+        if self.state in ["R", "Res"]:
             self.isrecording = False
             print("Recording Paused")
             self.state = "P"

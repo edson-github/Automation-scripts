@@ -7,8 +7,7 @@ CLEANR = re.compile("<.*?>")
 
 
 def cleanhtml(raw_html):
-    cleantext = re.sub(CLEANR, "", raw_html)
-    return cleantext
+    return re.sub(CLEANR, "", raw_html)
 
 
 def split_value_and_unit(soup):
@@ -56,7 +55,7 @@ def concat_contents(ls):
 def scrap_wraper(problem_link):
     markup = requests.get(problem_link).text
     soup = bs4.BeautifulSoup(markup, "html.parser")
-    problem = {
+    return {
         "title": soup.find("div", "title").string,
         "timeLimit": split_value_and_unit(
             soup.find("div", "time-limit").contents[1].string
@@ -70,7 +69,6 @@ def scrap_wraper(problem_link):
         "samples": test_sample(soup),
         "note": get_content(soup, "note"),
     }
-    return problem
 
 
 def get_all_problems():
@@ -104,7 +102,7 @@ def get_all_problems_by_tag(tag):
 
 
 def get_problem_statement_by_id_and_index(id, index):
-    url = "https://codeforces.com/problemset/problem/" + id + "/" + index
+    url = f"https://codeforces.com/problemset/problem/{id}/{index}"
     data = scrap_wraper(url)
     print(cleanhtml(data["statement"]))
     print(cleanhtml(data["inputSpecification"]))

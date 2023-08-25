@@ -27,43 +27,43 @@ def draw_circle(event, x, y, flags, param):
     """
     Draws dots on double clicking of the left mouse button
     """
+    if event != cv2.EVENT_LBUTTONDBLCLK:
+        return
+    # Draw the dot
+    cv2.circle(image, (x, y), 5, colors['magenta'], -1)
+
+    # Annotate the image
+    txt = input("Describe this pixel using one word (e.g. dog) and press ENTER: ")
+
+    # Append values to the list
+    x_vals.append(x)
+    y_vals.append(y)
+    annotation_vals.append(txt)
+
+        # Print the coordinates and the annotation to the console
+    print(((f"x = {str(x)}  y = {str(y)}  Annotation = " + txt) + "\n"))
+
+    # Set the position of the text part of the annotation
+    text_x_pos = None
+    text_y_pos = y
+
     # Store the height and width of the image
     # height = image.shape[0]
     width = image.shape[1]
 
-    if event == cv2.EVENT_LBUTTONDBLCLK:
-        # Draw the dot
-        cv2.circle(image, (x, y), 5, colors['magenta'], -1)
+    text_x_pos = (
+        int(x + (width * 0.075))
+        if x < (width / 2)
+        else int(x - (width * 0.075))
+    )
+    # Write text on the image
+    cv2.putText(image, txt, (text_x_pos, text_y_pos),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, colors['magenta'], 2)
 
-        # Annotate the image
-        txt = input("Describe this pixel using one word (e.g. dog) and press ENTER: ")
+    cv2.imwrite(OUTPUT_IMAGE, image)
 
-        # Append values to the list
-        x_vals.append(x)
-        y_vals.append(y)
-        annotation_vals.append(txt)
-
-        # Print the coordinates and the annotation to the console
-        print("x = " + str(x) + "  y = " + str(y)
-              + "  Annotation = " + txt + "\n")
-
-        # Set the position of the text part of the annotation
-        text_x_pos = None
-        text_y_pos = y
-
-        if x < (width / 2) :
-            text_x_pos = int(x + (width * 0.075))
-        else:
-            text_x_pos = int(x - (width * 0.075))
-
-        # Write text on the image
-        cv2.putText(image, txt, (text_x_pos, text_y_pos),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, colors['magenta'], 2)
-
-        cv2.imwrite(OUTPUT_IMAGE, image)
-
-        # Prompt user for another annotation
-        print("Double click another pixel or press 'q' to quit...\n")
+    # Prompt user for another annotation
+    print("Double click another pixel or press 'q' to quit...\n")
 
 
 print("Welcome to the Image Annotation Program!\n")

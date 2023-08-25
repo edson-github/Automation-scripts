@@ -32,7 +32,7 @@ def convert2gif(path, quality=MediumQuality(), out_filename=None):
     filename, _ = os.path.splitext(path)
     with (VideoFileClip(path).resize(quality.scale)) as clip:
         if not out_filename:
-            out_filename = filename + ".gif"
+            out_filename = f"{filename}.gif"
         clip.write_gif(out_filename, fps=quality.fps, program=quality.program)
         return out_filename
 
@@ -40,4 +40,4 @@ def convert2gif(path, quality=MediumQuality(), out_filename=None):
 if __name__ == '__main__':
     file = input("Write the file name: ")
     result = convert2gif(file)
-    print("Generated GIF at " + result)
+    print(f"Generated GIF at {result}")

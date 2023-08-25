@@ -10,16 +10,7 @@ def get_pattern(level: int) -> str:
     # getting the number of separators required
     separators_length = spaces // 2
 
-    # generating the pattern
-    pattern = ''
-
-    for i in range(separators_length):
-        pattern += '  |'
-
-    # adding the finishing
-    pattern += '__'
-
-    return pattern
+    return ''.join('  |' for _ in range(separators_length)) + '__'
 
 
 # function to print the structure
@@ -27,15 +18,13 @@ def print_structure(path: str, level: int) -> None:
     # printing the dir name
     if level == 0:  # if it is the root directory then print the name as it is
         print(path)
-    else:  # if it is not the root directory
-        # if dir name is something like dir/indir/then make it indir/
-        if '/' in path:
-            # the header information should start with level - 1
-            print(f'{get_pattern(level - 1)}{path.split("/")[-1]}/')
-        else:
-            # if dir name is dir then show the user dir/
-            # so that it is clear that it is a directory
-            print(f'{get_pattern(level)}{path}/')
+    elif '/' in path:
+        # the header information should start with level - 1
+        print(f'{get_pattern(level - 1)}{path.split("/")[-1]}/')
+    else:
+        # if dir name is dir then show the user dir/
+        # so that it is clear that it is a directory
+        print(f'{get_pattern(level)}{path}/')
 
     # list the contents of the dir
     contents = os.listdir(path)

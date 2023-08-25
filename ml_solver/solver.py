@@ -128,13 +128,12 @@ class solver:
                 f"target: {self.target} \n"
             )
 
-            # handle random numbers generation
-            random_num_options = self.dataset_props.get("random_numbers", None)
-            if random_num_options:
-                generate_reproducible = random_num_options.get(
+            if random_num_options := self.dataset_props.get(
+                "random_numbers", None
+            ):
+                if generate_reproducible := random_num_options.get(
                     "generate_reproducible", None
-                )
-                if generate_reproducible:
+                ):
                     logger.info(
                         "You provided the generate reproducible results option."
                     )
@@ -144,7 +143,6 @@ class solver:
                         f"Setting a seed = {seed} to generate same random numbers on each experiment.."
                     )
 
-        # if entered command is evaluate or predict, then the pre-fitted model needs to be loaded and used
         else:
             self.model_path = cli_args.get(
                 "model_path", self.default_model_path
@@ -185,7 +183,7 @@ class solver:
 
         model_args = None
         if not model_type or not model_algorithm:
-            raise Exception(f"model_type and algorithm cannot be None")
+            raise Exception("model_type and algorithm cannot be None")
         algorithms: dict = models_dict.get(
             model_type
         )  # extract all algorithms as a dictionary
@@ -197,35 +195,34 @@ class solver:
         )
         if not model:
             raise Exception("Model not found in the algorithms list")
-        else:
-            model_props_args = self.model_props.get("arguments", None)
-            if model_props_args and type(model_props_args) == dict:
-                model_args = model_props_args
-            elif not model_props_args or model_props_args.lower() == "default":
-                model_args = None
+        model_props_args = self.model_props.get("arguments", None)
+        if model_props_args and type(model_props_args) == dict:
+            model_args = model_props_args
+        elif not model_props_args or model_props_args.lower() == "default":
+            model_args = None
 
-            if use_cv:
-                model_class = model.get("cv_class", None)
-                if model_class:
-                    logger.info(
-                        f"cross validation estimator detected. "
-                        f"Switch to the CV version of the {model_algorithm} algorithm"
-                    )
-                else:
-                    logger.info(
-                        f"No CV class found for the {model_algorithm} algorithm"
-                    )
+        if use_cv:
+            model_class = model.get("cv_class", None)
+            if model_class:
+                logger.info(
+                    f"cross validation estimator detected. "
+                    f"Switch to the CV version of the {model_algorithm} algorithm"
+                )
             else:
-                model_class = model.get("class")
-            logger.info(
-                f"model arguments: \n" f"{self.model_props.get('arguments')}"
-            )
-            model = (
-                model_class(**kwargs)
-                if not model_args
-                else model_class(**model_args)
-            )
-            return model, model_args
+                logger.info(
+                    f"No CV class found for the {model_algorithm} algorithm"
+                )
+        else:
+            model_class = model.get("class")
+        logger.info(
+            f"model arguments: \n" f"{self.model_props.get('arguments')}"
+        )
+        model = (
+            model_class(**kwargs)
+            if not model_args
+            else model_class(**model_args)
+        )
+        return model, model_args
 
     def _save_model(self, model):
         """
@@ -268,11 +265,10 @@ class solver:
             if not f:
                 logger.info(f"result path: {self.results_path} ")
                 logger.info(f"loading model form {self.default_model_path} ")
-                model = joblib.load(open(self.default_model_path, "rb"))
+                return joblib.load(open(self.default_model_path, "rb"))
             else:
                 logger.info(f"loading from {f}")
-                model = joblib.load(open(f, "rb"))
-            return model
+                return joblib.load(open(f, "rb"))
         except FileNotFoundError:
             logger.error(f"File not found in {self.default_model_path} ")
 
@@ -308,9 +304,7 @@ class solver:
             # handle missing values in the dataset
             preprocess_props = self.dataset_props.get("preprocess", None)
             if preprocess_props:
-                # handle encoding
-                encoding = preprocess_props.get("encoding")
-                if encoding:
+                if encoding := preprocess_props.get("encoding"):
                     encoding_type = encoding.get("type", None)
                     column = encoding.get("column", None)
                     if column in attributes:
@@ -330,24 +324,20 @@ class solver:
                             f"shape of the dataset after encoding => {dataset.shape}"
                         )
 
-                # preprocessing strategy: mean, median, mode etc..
-                strategy = preprocess_props.get("missing_values")
-                if strategy:
+                if strategy := preprocess_props.get("missing_values"):
                     dataset = handle_missing_values(dataset, strategy=strategy)
                     logger.info(
                         f"shape of the dataset after handling missing values => {dataset.shape}"
                     )
 
-            if target == "predict" or target == "fit_cluster":
+            if target in ["predict", "fit_cluster"]:
                 x = _reshape(dataset.to_numpy())
                 if not preprocess_props:
                     return x
-                scaling_props = preprocess_props.get("scale", None)
-                if not scaling_props:
+                if not (scaling_props := preprocess_props.get("scale", None)):
                     return x
-                else:
-                    scaling_method = scaling_props.get("method", None)
-                    return normalize(x, method=scaling_method)
+                scaling_method = scaling_props.get("method", None)
+                return normalize(x, method=scaling_method)
 
             if any(col not in attributes for col in self.target):
                 raise Exception(
@@ -361,8 +351,7 @@ class solver:
 
             # handle data scaling
             if preprocess_props:
-                scaling_props = preprocess_props.get("scale", None)
-                if scaling_props:
+                if scaling_props := preprocess_props.get("scale", None):
                     scaling_method = scaling_props.get("method", None)
                     scaling_target = scaling_props.get("target", None)
                     if scaling_target == "all":
@@ -457,8 +446,7 @@ class solver:
         # convert to multioutput if there is more than one target to predict:
         if self.model_type != "clustering" and len(self.target) > 1:
             logger.info(
-                f"predicting multiple targets detected. Hence, the model will be automatically "
-                f"converted to a multioutput model"
+                'predicting multiple targets detected. Hence, the model will be automatically converted to a multioutput model'
             )
             self.model = (
                 MultiOutputClassifier(self.model)
@@ -469,18 +457,16 @@ class solver:
         if self.model_type != "clustering":
             cv_params = self.model_props.get("cross_validate", None)
             if not cv_params:
-                logger.info(f"cross validation is not provided")
+                logger.info("cross validation is not provided")
             else:
                 # perform cross validation
                 logger.info("performing cross validation ...")
                 cv_results = cross_validate(
                     estimator=self.model, X=x_train, y=y_train, **cv_params
                 )
-            hyperparams_props = self.model_props.get(
+            if hyperparams_props := self.model_props.get(
                 "hyperparameter_search", None
-            )
-            if hyperparams_props:
-
+            ):
                 # perform hyperparameter search
                 method = hyperparams_props.get("method", None)
                 grid_params = hyperparams_props.get("parameter_grid", None)
@@ -509,34 +495,29 @@ class solver:
         else:  # if the model type is clustering
             self.model.fit(x_train)
 
-        saved = self._save_model(self.model)
-        if saved:
+        if saved := self._save_model(self.model):
             logger.info(
                 f"model saved successfully and can be found in the {self.results_path} folder"
             )
 
         if self.model_type == "clustering":
             eval_results = self.model.score(x_train)
-        else:
-            if x_test is None:
-                logger.info(
-                    f"no split options was provided. training score will be calculated"
-                )
-                eval_results = self.model.score(x_train, y_train)
+        elif x_test is None:
+            logger.info("no split options was provided. training score will be calculated")
+            eval_results = self.model.score(x_train, y_train)
 
-            else:
-                logger.info(
-                    f"split option detected. The performance will be automatically evaluated "
-                    f"using the test data portion"
-                )
-                y_pred = self.model.predict(x_test)
-                eval_results = self.get_evaluation(
-                    model=self.model,
-                    x_test=x_test,
-                    y_true=y_test,
-                    y_pred=y_pred,
-                    **kwargs,
-                )
+        else:
+            logger.info(
+                'split option detected. The performance will be automatically evaluated using the test data portion'
+            )
+            y_pred = self.model.predict(x_test)
+            eval_results = self.get_evaluation(
+                model=self.model,
+                x_test=x_test,
+                y_true=y_test,
+                y_pred=y_pred,
+                **kwargs,
+            )
 
         fit_description = {
             "model": self.model.__class__.__name__,
@@ -632,7 +613,7 @@ class solver:
             logger.info(f"predict on targets: {self.target}")
             if not self.target:
                 self.target = ["result"]
-            df_pred = pd.DataFrame.from_dict(
+            return pd.DataFrame.from_dict(
                 {
                     self.target[i]: y_pred[:, i]
                     if len(y_pred.shape) > 1
@@ -640,8 +621,6 @@ class solver:
                     for i in range(len(self.target))
                 }
             )
-            return df_pred
-
         except Exception as e:
             logger.exception(f"Error while preparing predictions: {e}")
 
@@ -678,15 +657,12 @@ class solver:
             "model": model_props,
             "target": ["provide your target(s) here"]
             if not target
-            else [tg for tg in target.split()],
+            else list(target.split()),
         }
-        created = create_yaml(default_data, path)
-        if created:
+        if created := create_yaml(default_data, path):
             logger.info(
                 f"a default ML_solver.yaml is created for you in {path}. "
                 f"you just need to overwrite the values to meet your expectations"
             )
         else:
-            logger.warning(
-                f"something went wrong while initializing a default file"
-            )
+            logger.warning("something went wrong while initializing a default file")

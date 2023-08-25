@@ -27,14 +27,14 @@ def randomize_params():
             selected_params.append(params[param_choice])
 
     # --- SET DEFAULTS FOR PARAMS ---
-    args = {}
-    args['angle'] = angle
-    args['interval_function'] = 'threshold'
-    args['lower_threshold'] = 0.5
-    args['upper_threshold'] = 0.8
-    args['randomness'] = 0.5
-    args['sorting_function'] = 'lightness'
-
+    args = {
+        'angle': angle,
+        'interval_function': 'threshold',
+        'lower_threshold': 0.5,
+        'upper_threshold': 0.8,
+        'randomness': 0.5,
+        'sorting_function': 'lightness',
+    }
     # --- UPDATE WITH RANDOMIZED VALUES ---
     for param in selected_params:
         if param == 'interval_function':
@@ -58,17 +58,15 @@ def randomize_params():
 
 
 def perform_sorting(args, img):
-    # --- PERFORM PIXELSORT WITH RANDOMIZED PARAMS ---
-    new_img = pixelsort(
+    return pixelsort(
         image=img,
         angle=args['angle'],
         interval_function=args['interval_function'],
         lower_threshold=args['lower_threshold'],
         upper_threshold=args['upper_threshold'],
         randomness=args['randomness'],
-        sorting_function=args['sorting_function']
+        sorting_function=args['sorting_function'],
     )
-    return new_img
 
 
 def Main():
@@ -99,7 +97,7 @@ def Main():
                 print('-' * 30)
 
     except getopt.error as error:
-        print(str(error))
+        print(error)
 
     # --- DELETE PREVIOUS RESULTS ---
     for file in os.listdir(out_path):
@@ -117,7 +115,7 @@ def Main():
 
         # --- DEFINE LOCATIONS FOR LOAD AND SAVE ---
         in_file = in_path
-        out_file = out_path + f'result-0{index + 1}.png'
+        out_file = f'{out_path}result-0{index + 1}.png'
         img = Image.open(in_file)
 
         # --- CALL SORT FUNCTION ---

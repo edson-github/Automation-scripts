@@ -15,4 +15,4 @@ sub = YouTubeTranscriptApi.get_transcript(url)
 # Writing subtitles into a file.
 with open("subtitles.txt", "w") as f:
     for i in sub:
-        f.write("{}\n".format(i))
+        f.write(f"{i}\n")

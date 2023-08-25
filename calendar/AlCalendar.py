@@ -66,7 +66,7 @@ class AlCalendar():
         weekday = now.weekday()
         weekdayName = calendar.day_name[weekday]
         today = datetime.strftime(now, '%B %d, %Y')
-        fullDate = weekdayName + ', ' + today
+        fullDate = f'{weekdayName}, {today}'
 
         date = Label(root, text=fullDate)
         date.pack()

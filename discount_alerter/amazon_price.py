@@ -38,7 +38,10 @@ def get_price(URL):
         'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
     }
 
-    htmldata = requests.get("https://" + country_prefix + "camelcamelcamel.com/product/" + ProductID, headers=headers)
+    htmldata = requests.get(
+        f"https://{country_prefix}camelcamelcamel.com/product/{ProductID}",
+        headers=headers,
+    )
     soup = bs4.BeautifulSoup(htmldata.text, 'html.parser')
     current = ".".join(soup.find("span", {'class': 'green'}).text[:-1].split(","))
     '''
@@ -55,20 +58,15 @@ Simple Logic: Is the Product's price bellower I want, then inbox me or text me.
 
 
 def check_price(URL, desired_price):
-    if isinstance(desired_price) is False:
+    if not isinstance(desired_price):
         raise TypeError('Desired Price should be Int or Double decimal')
-    else:
-        current_price = (get_price(getenv("URL")))
-        if (desired_price < current_price):
-            # TODO: Sends email
-            pass
-        if (desired_price >= current_price):
-            Client(getenv(
-                'ACCOUNT_SID'), getenv('AUTH_TOKEN')).messages.create(
-                body='Current price for {} is {}.'.format(getenv("URL"), current_price),
-                from_='+twilio_number',
-                to='+user_phone_number'
-            )
+    current_price = (get_price(getenv("URL")))
+    if (desired_price >= current_price):
+        Client(getenv('ACCOUNT_SID'), getenv('AUTH_TOKEN')).messages.create(
+            body=f'Current price for {getenv("URL")} is {current_price}.',
+            from_='+twilio_number',
+            to='+user_phone_number',
+        )
 
 
 if __name__ == "__main__":

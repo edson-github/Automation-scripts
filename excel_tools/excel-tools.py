@@ -75,7 +75,7 @@ if input() == "CHART":
     print("how many columns do you want")
     lel = int(input())
     print("enter", lel, " values")
-    for i in range(lel):
+    for _ in range(lel):
         b = int(input())
         sheet.append([b])
     values = Reference(sheet, min_col=1, min_row=1,
