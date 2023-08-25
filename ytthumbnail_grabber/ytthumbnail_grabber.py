@@ -17,9 +17,7 @@ def parser():
 
 
 if __name__ == '__main__':
-    name = "thumbnail.jpg"
     args = parser()
-    if args.name:
-        name = args.name
+    name = args.name if args.name else "thumbnail.jpg"
     thumbnail = YouTube(args.url).thumbnail_url
     urllib.request.urlretrieve(thumbnail, name)

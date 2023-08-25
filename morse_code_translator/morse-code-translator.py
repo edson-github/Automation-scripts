@@ -50,7 +50,7 @@ if __name__ == "__main__":
         q = input(
             "Do you want another translation ? (Y/Yes) or (N/No): "
         ).lower()
-        if q == 'n' or q == 'no':
+        if q in ['n', 'no']:
             quit = True
 
 # Script by Swaraj Baral (github.com/SwarajBaral)

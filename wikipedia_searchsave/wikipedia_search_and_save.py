@@ -10,7 +10,7 @@ class PDF(FPDF):
         # Background color
         self.set_fill_color(200, 220, 255)
         # Title
-        self.cell(0, 6, '%s' % (label), 0, 1, 'L', 1)
+        self.cell(0, 6, f'{label}', 0, 1, 'L', 1)
         # Line break
         self.ln(4)
 
@@ -34,17 +34,13 @@ class PDF(FPDF):
 def wikipedia_search(user_input):
     query = wikipedia.page(user_input)
 
-    # Writing the search result in a temp file
-    file = open('temp.txt', 'w')
-    # write() - it used to write direct text to the file
-    file.write(query.summary)
-    # closing the file
-    file.close()
-
+    with open('temp.txt', 'w') as file:
+        # write() - it used to write direct text to the file
+        file.write(query.summary)
     # variable pdf
     pdf = PDF()
     # declaring our file name
-    pdf_file_name = user_input + ".pdf"
+    pdf_file_name = f"{user_input}.pdf"
     # writing the content to a pdf file
     pdf.print_chapter(query.original_title, 'temp.txt')
     # saving the file in our computer

@@ -46,12 +46,11 @@ class AlDocSummarizer():
                 extension = os.path.splitext(filepath)[1]
                 try:
                     if extension.lower() == ".pdf":
-                        pdfFileObj = open(filepath, 'rb')
-                        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-                        for i in range(pdfReader.numPages):
-                            pageObj = pdfReader.getPage(i)
-                            articleText += pageObj.extractText()
-                        pdfFileObj.close()
+                        with open(filepath, 'rb') as pdfFileObj:
+                            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+                            for i in range(pdfReader.numPages):
+                                pageObj = pdfReader.getPage(i)
+                                articleText += pageObj.extractText()
                     elif extension.lower() == ".docx":
                         document = Document(filepath)
                         for paragraph in document.paragraphs:
@@ -74,13 +73,13 @@ class AlDocSummarizer():
                                 wordFreq[word] += 1
 
                     maxFreq = max(wordFreq.values())
-                    for word in wordFreq.keys():
+                    for word in wordFreq:
                         wordFreq[word] = wordFreq[word] / maxFreq
 
                     sentenceScores = {}
                     for sent in sentenceList:
                         for word in nltk.word_tokenize(sent.lower()):
-                            if word in wordFreq.keys():
+                            if word in wordFreq:
                                 if len(sent.split(' ')) < 30:
                                     if sent not in sentenceScores.keys():
                                         sentenceScores[sent] = wordFreq[word]
@@ -97,15 +96,14 @@ class AlDocSummarizer():
                     summaryFilePath = os.path.join(cwd + '\\AlDocSummarizer\\'
                                                    'Summarize',
                                                    summaryFileName)
-                    summaryFile = open(summaryFilePath, "w")
-                    summaryFile.writelines(summarySentences)
-                    summaryFile.close()
+                    with open(summaryFilePath, "w") as summaryFile:
+                        summaryFile.writelines(summarySentences)
                     text.delete(1.0, END)
                     text.insert(1.0, summaryFileName + ' has been saved '
                                 'successfully in Summarize folder')
                 except Exception as e:
                     text.delete(1.0, END)
-                    print(str(e))
+                    print(e)
                     text.insert(1.0, 'Invalid document, please provide .pdf or'
                                 ' .docx extension files')
             else:

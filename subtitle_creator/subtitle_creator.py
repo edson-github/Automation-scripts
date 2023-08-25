@@ -15,8 +15,7 @@ def get_file_length(audiofile):
     with contextlib.closing(wave.open(audiofile, 'r')) as f:
         frames = f.getnframes()
         rate = f.getframerate()
-        duration = frames / float(rate)
-        return duration
+        return frames / float(rate)
 
 
 def get_text(audiofile="audio.wav"):
@@ -24,7 +23,7 @@ def get_text(audiofile="audio.wav"):
     audio_length = get_file_length(audiofile)
     texts = []
     with sr.AudioFile(audiofile) as source:
-        for i in range(0, int(round(audio_length / 3))):
+        for _ in range(0, int(round(audio_length / 3))):
             try:
                 text = r.recognize_google(r.record(source, duration=3))
             except sr.UnknownValueError:
@@ -34,14 +33,14 @@ def get_text(audiofile="audio.wav"):
 
 
 def write_text(text_chunks, original_video, output, font_size=15):
-    txt_clips = []
-    for i in range(len(text_chunks)):
-        txt_clips.append(TextClip(text_chunks[i], fontsize=font_size, color="yellow")
-                         .set_position('bottom')
-                         .set_duration(3)
-                         .set_start(i * 3))
-    clips = [original_video]
-    clips.extend(txt_clips)
+    txt_clips = [
+        TextClip(text_chunks[i], fontsize=font_size, color="yellow")
+        .set_position('bottom')
+        .set_duration(3)
+        .set_start(i * 3)
+        for i in range(len(text_chunks))
+    ]
+    clips = [original_video, *txt_clips]
     result = CompositeVideoClip(clips)
     result.write_videofile(output)
 

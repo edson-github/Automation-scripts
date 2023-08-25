@@ -49,8 +49,7 @@ def send_message(
     print(">> Sending To WebHook...")
     payload = json.dumps(payload)
     headers = {"Content-Type": "application/json"}
-    response = requests.post(webhook_url, headers=headers, data=payload)
-    return response
+    return requests.post(webhook_url, headers=headers, data=payload)
 
 
 def example_calling():

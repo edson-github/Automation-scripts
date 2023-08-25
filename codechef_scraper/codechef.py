@@ -30,7 +30,7 @@ def get_problems(category, no_of_problems):
     # A map to store problem name and problem url
     problem_info = {}
     try:
-        driver.get(baseurl + '/' + category)
+        driver.get(f'{baseurl}/{category}')
         # wait till the  first element is loaded
         wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//*[@id='primary-content']/div/div[2]/div/div[2]/table/tbody/tr[1]/td[1]/div/a/b")))
@@ -40,9 +40,11 @@ def get_problems(category, no_of_problems):
 
     for problem_index in range(1, no_of_problems + 1):
         problem_name = driver.find_element_by_xpath(
-            "//*[@id='primary-content']/div/div[2]/div/div[2]/table/tbody/tr[{}]/td[1]/div/a/b".format(problem_index)).text  # noqa
+            f"//*[@id='primary-content']/div/div[2]/div/div[2]/table/tbody/tr[{problem_index}]/td[1]/div/a/b"
+        ).text
         problem_url = driver.find_element_by_xpath(
-            "//*[@id='primary-content']/div/div[2]/div/div[2]/table/tbody/tr[{}]/td[1]/div/a".format(problem_index)).get_attribute('href')  # noqa
+            f"//*[@id='primary-content']/div/div[2]/div/div[2]/table/tbody/tr[{problem_index}]/td[1]/div/a"
+        ).get_attribute('href')
         print(problem_name, " ", problem_url)
         problem_info[problem_name] = problem_url
     return problem_info
@@ -70,11 +72,12 @@ def get_problem_description(problem_url, problem_name):
         else:
 
             driver.execute_script("window.stop();")
-        problem = {'title': problem_title, 'statement': problem_statement,
-                   'test_case': problem_test_cases, 'url': problem_url}
-        return problem
-
-    # Handling exceptions
+        return {
+            'title': problem_title,
+            'statement': problem_statement,
+            'test_case': problem_test_cases,
+            'url': problem_url,
+        }
     except NoSuchElementException as e:  # noqa
         print("Couldn't scrap the element, Unable to locate it")
         problem = None
@@ -102,7 +105,7 @@ def convert_to_pdf(problem):
     pdf.write(5, 'Problem_Link: ')
     pdf.write(5, url, url)
 
-    pdf.output(title + ".pdf")
+    pdf.output(f"{title}.pdf")
 
 
 # main function
@@ -116,8 +119,6 @@ def main():
         problem = get_problem_description(url, name)
         if (problem is not None):
             convert_to_pdf(problem)
-        else:
-            pass
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ def cleanup(cap):
 
 
 def cap_check(path):
-    print("Creating capture device at path {}".format(path))
+    print(f"Creating capture device at path {path}")
     cap = cv2.VideoCapture(path)
     if not cap.isOpened():
         print("Error opening video stream or file")

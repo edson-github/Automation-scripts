@@ -2,7 +2,7 @@
 def add_domain():
     domain_name = input("Enter the domain of the website to block:")
     with open("c:/Windows/System32/drivers/etc/hosts", "a") as fileHandler:
-        fileHandler.write('127.0.0.1 {}'.format(domain_name) + '\n')
+        fileHandler.write(f'127.0.0.1 {domain_name}' + '\n')
 
 
 # function for removing the domains from the host file
@@ -15,8 +15,6 @@ def remove_all_domains():
             for each_line in file_contents:
                 if each_domain.strip(" ") in each_line.strip("\n").split(" "):
                     file_contents.pop(file_contents.index(each_line))
-                else:
-                    pass
         f.seek(0)
         f.truncate()
         f.writelines(file_contents)

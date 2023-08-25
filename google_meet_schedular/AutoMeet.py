@@ -88,17 +88,16 @@ class AutoMeet():
                               final_text)
             if ("http" in final_text):
                 notify = Notify()
-                notify.send(link[0][0] + "://" + link[0][1], link[0][0] + "://" + link[0][1])
-                print(link[0][0] + "://" + link[0][1])
+                notify.send(f"{link[0][0]}://{link[0][1]}", f"{link[0][0]}://{link[0][1]}")
+                print(f"{link[0][0]}://{link[0][1]}")
             people_int = re.findall(r'[0-9]+', people)
             # print(people_int[0])
             currentStudents = int(people_int[0])
             if currentStudents > greatestStudents:
                 greatestStudents = currentStudents
-            else:
-                if currentStudents < greatestStudents / 2:
-                    self.browser.close()
-                    break
+            elif currentStudents < greatestStudents / 2:
+                self.browser.close()
+                break
 
     def waiting_N_click(self, path):
         try:

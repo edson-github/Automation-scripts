@@ -6,7 +6,7 @@ from newspaper import Article
 from newspaper import Config
 from datetime import datetime
 
-news_information = dict()
+news_information = {}
 
 failed_port_connection = []
 
@@ -25,10 +25,10 @@ def get_top_news(news_information, todays_date):
         """https://newsapi.org/v2/top-headlines""",
         params=params)
     news_articles = response.json()['articles']
-    for i in news_articles:
-        user_agent = """Mozilla/5.0 (Macintosh;
+    user_agent = """Mozilla/5.0 (Macintosh;
         Intel Mac OS X 10.15; rv:78.0)
         Gecko/20100101 Firefox/78.0"""
+    for i in news_articles:
         config = Config()
         config.browser_user_agent = user_agent
         config.request_timeout = 10

@@ -35,7 +35,7 @@ def cloud_convert(app_sid, app_key):
         settings.output_path = output_name
         request = groupdocs_conversion_cloud.ConvertDocumentRequest(settings)
         response = convert_api.convert_document(request)
-        print("Document converted successfully: " + str(response))
+        print(f"Document converted successfully: {str(response)}")
 
     except groupdocs_conversion_cloud.ApiException as e:
         print("Exception when calling get_supported_conversion_types: {0}".format(e.message))
@@ -44,7 +44,7 @@ def cloud_convert(app_sid, app_key):
 if __name__ == "__main__":
 
     choice = input("Press 1 for basic file conversion, 2 for advanced file conversion(GroupDocs account required)")
-    while choice != '1' and choice != '2':
+    while choice not in ['1', '2']:
         print("Please enter a valid choice!\n")
         choice = input("Press 1 for basic file conversion, 2 for advanced file conversion(GroupDocs account required)")
     if choice == '1':

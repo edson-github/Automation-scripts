@@ -18,10 +18,7 @@ class AlgebraSolver:
         try:
             exp = expression.split("=")
             sy_exp = kernS(exp[0])
-            if exp[1].isdigit():
-                req = int(exp[1])
-            else:
-                req = kernS(exp[1])
+            req = int(exp[1]) if exp[1].isdigit() else kernS(exp[1])
         except SyntaxError:
             return "Not a valid expression"
         return sy.solveset(sy.Eq(sy_exp, req))
@@ -35,7 +32,7 @@ class AlgebraSolver:
             if event == "eval":
                 self.result = self.evaluate_linear(values["lneq"])
                 window["result"].update(self.result)
-            elif event == sg.WIN_CLOSED or event == "EXIT":
+            elif event in [sg.WIN_CLOSED, "EXIT"]:
                 break
 
 

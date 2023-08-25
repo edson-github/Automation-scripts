@@ -44,27 +44,27 @@ class AlPythonPackageInstaller():
         def install():
             text.delete(1.0, END)
             package = pythonPackage.get()
-            check = subprocess.getoutput('pip install ' + package)
+            check = subprocess.getoutput(f'pip install {package}')
             if '==' in package:
                 package = package.split('==')[0]
-            alreadyInstalled = 'Requirement already satisfied: ' + package
-            nowInstalled = 'Successfully installed ' + package
+            alreadyInstalled = f'Requirement already satisfied: {package}'
+            nowInstalled = f'Successfully installed {package}'
             errorInstalling = 'ERROR: Could not find a version that satisfies'\
-                              'the requirement ' + package
+                                  'the requirement ' + package
             someError = 'ERROR: '
             var = check.split('\n')
             if nowInstalled in var[-1]:
                 text.insert(1.0, var[-1])
-                speak('Successfully installed ' + package)
+                speak(f'Successfully installed {package}')
             elif len(var) >= 3 and nowInstalled in var[-3]:
                 text.insert(1.0, var[-3])
-                speak('Successfully installed ' + package)
+                speak(f'Successfully installed {package}')
             elif alreadyInstalled in var[0]:
                 text.insert(1.0, var[0])
-                speak(package + 'already installed')
+                speak(f'{package}already installed')
             elif errorInstalling in check or someError in check:
                 text.insert(1.0, check)
-                speak('Error installing ' + package)
+                speak(f'Error installing {package}')
 
         textHighlightFont = font.Font(family='OnePlus Sans Display', size=12)
         appHighlightFont = font.Font(family='OnePlus Sans Display', size=12,

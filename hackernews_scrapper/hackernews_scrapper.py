@@ -45,9 +45,7 @@ def main():
 
     for title, link in zip(titles[:number_of_articles],
                            links[:number_of_articles]):
-        d = {}
-        d["News Title"] = title
-        d["Link to the News"] = link
+        d = {"News Title": title, "Link to the News": link}
         result.append(d)
 
     keys = ["News Title", "Link to the News"]

@@ -18,10 +18,7 @@ class FileSearch:
 
         self.file_count = 0
         for root, dirs, files in os.walk(path):
-            if is_folder:
-                self.file_count += len(dirs)
-            else:
-                self.file_count += len(files)
+            self.file_count += len(dirs) if is_folder else len(files)
 
     def __perform_search(
         self,

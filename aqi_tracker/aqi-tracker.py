@@ -39,7 +39,7 @@ def main(argv):
 
             return help()
 
-    url = 'http://api.waqi.info/feed/' + city + '/?token=' + accesstoken
+    url = f'http://api.waqi.info/feed/{city}/?token={accesstoken}'
     print('URL: ', url)
 
     r = requests.get(url, auth=('user', 'pass'))
@@ -51,22 +51,22 @@ def main(argv):
 
         if value > 0 and value < 50:
             print('Air Quality Alert ->')
-            print('Current Value: Healthy - ' + toDisplay)
+            print(f'Current Value: Healthy - {toDisplay}')
         elif value > 50 and value < 100:
             print('Air Quality Alert ->')
-            print('Current Value: Moderate - ' + toDisplay)
+            print(f'Current Value: Moderate - {toDisplay}')
         elif value > 100 and value < 150:
             print('Air Quality Alert ->')
-            print('Current Value: Sensitive - ' + toDisplay)
+            print(f'Current Value: Sensitive - {toDisplay}')
         elif value > 150 and value < 200:
             print('Air Quality Alert ->')
-            print('Current Value: UnHealhty - ' + toDisplay)
+            print(f'Current Value: UnHealhty - {toDisplay}')
         elif value > 200 and value < 250:
             print('Air Quality Alert ->')
-            print('Current Value: UnHealthy - ' + toDisplay)
+            print(f'Current Value: UnHealthy - {toDisplay}')
         elif value > 250 and value > 300:
             print('Air Quality Alert ->')
-            print('Current Value: Hazardous - ' + toDisplay)
+            print(f'Current Value: Hazardous - {toDisplay}')
     else:
 
         print('Error: Unable to connect to server')

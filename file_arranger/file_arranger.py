@@ -12,13 +12,10 @@ def organize_junk():
 
         if file_format in FILE_FORMATS:
             directory_path = Path(FILE_FORMATS[file_format])
-            directory_path.mkdir(exist_ok=True)
-            file_path.rename(directory_path.joinpath(file_path))
-
         else:
             directory_path = Path('Others')
-            directory_path.mkdir(exist_ok=True)
-            file_path.rename(directory_path.joinpath(file_path))
+        directory_path.mkdir(exist_ok=True)
+        file_path.rename(directory_path.joinpath(file_path))
 
         for dir in os.scandir():
             try:

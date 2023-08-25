@@ -53,7 +53,7 @@ class Solver:
         # if self.humanize:
         manual = normalize.algorithm(algorithm, self.language)
         for index, text in enumerate(manual):
-            print('{}. {}'.format(index + 1, text))
+            print(f'{index + 1}. {text}')
         Die(0)
 
 

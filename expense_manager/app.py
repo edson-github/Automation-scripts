@@ -21,27 +21,23 @@ class ExpenseManager:
         myLabel.grid(row=4, column=0)
 
     def display_all(self, database):
-        select_all = database
-        return select_all
+        return database
 
     def insert(self, database, val1, val2, val3):
         goods = val1.get()
         price = val2.get()
         date = val3.get()
-        insertion = database(goods, price, date)
-        return insertion
+        return database(goods, price, date)
 
     def find_expense(self, database, val1, val2):
         goods = val1.get()
         price = val2.get()
-        find = database(goods, price)
-        return find
+        return database(goods, price)
 
     def delete_expense(self, database, val1, val2):
         goods = val1.get()
         price = val2.get()
-        delete = database(goods, price)
-        return delete
+        return database(goods, price)
 
     # MAIN WINDOW
     def main_window(self):

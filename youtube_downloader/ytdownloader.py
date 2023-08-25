@@ -27,18 +27,13 @@ else:
             f"Sorry, '{args.res}' resolution is not available for this video.\nDownloading highest resolution...")
 
 
-if not args.path:
-    dest = stream.download()
-else:
-    dest = stream.download(args.path)
-
+dest = stream.download() if not args.path else stream.download(args.path)
 if args.captions:
     try:
         caps = video.captions[args.captions].generate_srt_captions()
         filename = f"{dest.split('.', 1)[0]}.srt"
-        file = open(filename, "w")
-        file.write(caps)
-        file.close()
+        with open(filename, "w") as file:
+            file.write(caps)
     except KeyError:
         print(
             f"Sorry, '{args.captions}' captions are not available for this video.")

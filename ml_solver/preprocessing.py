@@ -20,7 +20,7 @@ def read_data_to_df(data_path: str, **read_data_options):
     read data depending on its extension and convert it to a pandas dataframe
     """
     file_ext = data_path.split(".")[-1]
-    if file_ext == "csv" or file_ext == "txt":
+    if file_ext in ["csv", "txt"]:
         return (
             pd.read_csv(data_path, **read_data_options)
             if read_data_options
@@ -47,8 +47,8 @@ def read_data_to_df(data_path: str, **read_data_options):
 
 
 def update_dataset_props(dataset_props: dict, default_dataset_props: dict):
-    for key1 in default_dataset_props.keys():
-        if key1 in dataset_props.keys():
+    for key1 in default_dataset_props:
+        if key1 in dataset_props:
             for key2 in default_dataset_props[key1].keys():
                 if key2 in dataset_props[key1].keys():
                     default_dataset_props[key1][key2] = dataset_props[key1][
@@ -76,12 +76,10 @@ def handle_missing_values(df, fill_value=np.nan, strategy="mean"):
 
 def encode(df, encoding_type="onehotencoding", column=None):
     if not encoding_type:
-        raise Exception(
-            f"encoding type should be -> oneHotEncoding or labelEncoding"
-        )
+        raise Exception("encoding type should be -> oneHotEncoding or labelEncoding")
 
     if encoding_type == "onehotencoding":
-        logger.info(f"performing a one hot encoding ...")
+        logger.info("performing a one hot encoding ...")
         return pd.get_dummies(df), None
 
     elif encoding_type == "labelencoding":
@@ -90,7 +88,7 @@ def encode(df, encoding_type="onehotencoding", column=None):
                 "if you choose to label encode your data, "
                 "then you need to provide the column you want to encode from your dataset"
             )
-        logger.info(f"performing a label encoding ...")
+        logger.info("performing a label encoding ...")
         encoder = LabelEncoder()
         encoder.fit(df[column])
         classes_map = {
@@ -105,9 +103,7 @@ def encode(df, encoding_type="onehotencoding", column=None):
         return df, classes_map
 
     else:
-        raise Exception(
-            f"encoding type should be -> oneHotEncoding or labelEncoding"
-        )
+        raise Exception("encoding type should be -> oneHotEncoding or labelEncoding")
 
 
 def normalize(x, y=None, method="standard"):
@@ -119,7 +115,4 @@ def normalize(x, y=None, method="standard"):
         )
     logger.info(f"performing a {method} scaling ...")
     scaler = MinMaxScaler() if method == "minmax" else StandardScaler()
-    if not y:
-        return scaler.fit_transform(X=x)
-    else:
-        return scaler.fit_transform(X=x, y=y)
+    return scaler.fit_transform(X=x) if not y else scaler.fit_transform(X=x, y=y)

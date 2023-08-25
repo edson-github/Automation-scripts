@@ -8,9 +8,7 @@ from win10toast import ToastNotifier
 
 def check_availability():
     # check if the running device is windows
-    if os.name == 'nt':
-        pass
-    else:
+    if os.name != 'nt':
         print('This script only runs on windows.')
         sys.exit(0)
 
@@ -23,12 +21,7 @@ def get_quote():
     if req.status_code != 200:
         print('Connot reach api.')
         sys.exit(0)
-    else:
-        pass
-
-    data = json.loads(req.content)
-    # pprint(data)
-    return data
+    return json.loads(req.content)
 
 
 def create_notifier(data):

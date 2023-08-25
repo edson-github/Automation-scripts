@@ -13,14 +13,13 @@ def pad(s):
 
 
 def unpad(s):
-    return s[: -ord(s[len(s) - 1:])]
+    return s[:-ord(s[-1:])]
 
 
 def get_private_key(password):
     salt = b"this is a salt"
     kdf = PBKDF2(password, salt, 64, 1000)
-    key = kdf[:32]
-    return key
+    return kdf[:32]
 
 
 def encrypt(raw, password):

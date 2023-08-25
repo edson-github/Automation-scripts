@@ -52,9 +52,8 @@ class TwoClicksScreenShot:
                 TwoClicksScreenShot.area_select()
                 if TwoClicksScreenShot.capture():
                     return False
-                else:
-                    print('Define points properly!! Press UP again to define')
-                    return True
+                print('Define points properly!! Press UP again to define')
+                return True
 
         with kb.Listener(on_release=on_release) as listener:
             listener.join()
@@ -88,8 +87,10 @@ class TwoClicksScreenShot:
 
     @staticmethod
     def output():
-        cv2.imwrite(TwoClicksScreenShot.filename + ".png", TwoClicksScreenShot.screenShot)
-        print("Screenshot saved as " + TwoClicksScreenShot.filename + ".png")
+        cv2.imwrite(
+            f"{TwoClicksScreenShot.filename}.png", TwoClicksScreenShot.screenShot
+        )
+        print(f"Screenshot saved as {TwoClicksScreenShot.filename}.png")
 
 
 def start():

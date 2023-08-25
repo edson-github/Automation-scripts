@@ -39,11 +39,11 @@ for post in userPosts:
     if postType == 'video':
         download_url = driver.find_element_by_xpath(
             "//meta[@property='og:video']").get_attribute('content')
-        urllib.request.urlretrieve(download_url, '{}.mp4'.format(shortcode))
+        urllib.request.urlretrieve(download_url, f'{shortcode}.mp4')
     else:
         download_url = driver.find_element_by_xpath(
             "//meta[@property='og:image']").get_attribute('content')
-        urllib.request.urlretrieve(download_url, '{}.jpg'.format(shortcode))
+        urllib.request.urlretrieve(download_url, f'{shortcode}.jpg')
     time.sleep(5)
 # close connections and chrome once all posts are downloaded
 driver.close()

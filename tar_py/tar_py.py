@@ -8,7 +8,7 @@ def list_tar(archive, verbosity):
         with tarfile.open(archive) as tfile:
             tfile.list(verbose=verbosity > 1)
     except Exception as err:
-        msg = "error listing %s: %s" % (archive, err)
+        msg = f"error listing {archive}: {err}"
         print(msg)
     return None
 
@@ -22,22 +22,20 @@ def extract_tar(archive, outdir):
         with tarfile.open(archive) as tfile:
             tfile.extractall(path=outdir)
     except Exception as err:
-        msg = "error extracting %s: %s" % (archive, err)
+        msg = f"error extracting {archive}: {err}"
         print(msg)
     return None
 
 
 def create_tar(archive, folder_name, compression=None):
     """Create a TAR archive with the tarfile Python module."""
-    mode = "w:"
-    if compression is not None:
-        mode = get_tar_mode(compression)
+    mode = get_tar_mode(compression) if compression is not None else "w:"
     try:
         with tarfile.open(archive, mode) as tfile:
             for filename in os.listdir(folder_name):
                 tfile.add(folder_name + filename, arcname=filename)
     except Exception as err:
-        msg = "error creating %s: %s" % (archive, err)
+        msg = f"error creating {archive}: {err}"
         print(msg)
     return None
 

@@ -14,11 +14,9 @@ class Window(tk.Frame):
         self.init_window()
 
     def openfile(self):
-        filename = \
-            filedialog.askopenfilename(filetypes=(('Markdown File',
-                                                   '*.md , *.mdown'),
-                                                  ('Text file', '*.txt')))
-        if filename:
+        if filename := filedialog.askopenfilename(
+            filetypes=(('Markdown File', '*.md , *.mdown'), ('Text file', '*.txt'))
+        ):
             try:
                 md2html = Markdown()
                 self.outputbox.set_html(md2html.convert(open(filename,

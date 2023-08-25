@@ -20,7 +20,7 @@ print('Current date: ', tdate)
 
 d = findDay(str(tdate))
 print(d)
-df = pd.read_csv(str(d) + '.csv')
+df = pd.read_csv(f'{str(d)}.csv')
 
 # Starting the session
 

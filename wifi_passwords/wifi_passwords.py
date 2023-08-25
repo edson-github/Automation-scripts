@@ -8,12 +8,11 @@ def exec_linux():
     wifi_ssids = subprocess.run(cmd, capture_output=True, shell=True)
     list_ssids = wifi_ssids.stdout.decode().split('\n')
 
-    list_cmds = list()
-
-    for i in list_ssids:
-        if i != '':
-            list_cmds.append(f' "/etc/NetworkManager/system-connections/{i}"')
-
+    list_cmds = [
+        f' "/etc/NetworkManager/system-connections/{i}"'
+        for i in list_ssids
+        if i != ''
+    ]
     cat_cmds = 'sudo cat ' + ' '.join(list_cmds) + ' | grep psk='
 
     print(
@@ -55,13 +54,12 @@ def exec_windows():
         .split('\r\n')
     ]
 
-    cmds = list()
-
-    for ssid in list_ssids:
-        if ssid.startswith(KEYWORDS[default_lang][0]):
-            cmds.append(ssid.split(':')[1].strip())
-
-    output = list()
+    cmds = [
+        ssid.split(':')[1].strip()
+        for ssid in list_ssids
+        if ssid.startswith(KEYWORDS[default_lang][0])
+    ]
+    output = []
     for cmd in cmds:
         cat_cmd = f'netsh wlan show profile "{cmd}" key=clear'
         cat_cmd = subprocess.run(cat_cmd, capture_output=True, shell=True)
@@ -71,11 +69,9 @@ def exec_windows():
                 temp_key = key.split(': ')
                 if len(temp_key) == 2:
                     output.append((cmd, temp_key[1]))
-                    break
                 else:
                     output.append((cmd, ''))
-                    break
-
+                break
     print('\n    List of Wifi SSIDs with passwords\n')
     for i in output:
         print(f'\t{i[0]} : {i[1]}')

@@ -22,8 +22,7 @@ class NGramModel(nn.Module):
         embeds = self.embedding(inputs).view((1, -1))
         x = F.relu(self.linear1(embeds))
         x = self.linear2(x)
-        log_probs = F.log_softmax(x, dim=1)
-        return log_probs
+        return F.log_softmax(x, dim=1)
 
 
 def make_inference(model, inputs, word_dict):
@@ -67,7 +66,7 @@ def generate_text_ngram(model, inputs, word_dict, n_words):
     # Collect pred indexes
     pred_idxs = []
 
-    for w in range(n_words):
+    for _ in range(n_words):
         pred_idx, pred_w = make_inference(model, inputs, word_dict)
         pred_sent.append(pred_w)
         pred_idxs.append(pred_idx)

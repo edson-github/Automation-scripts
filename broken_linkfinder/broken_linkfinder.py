@@ -15,23 +15,30 @@ def getLinksFromHTML(html):
 
 
 def find_broken_links(domainToSearch, URL, parentURL):
-    if (not (URL in searched_links)) and (not URL.startswith("mailto:")) and (not ("javascript:" in URL)) and \
-            (not URL.endswith(".png")) and (not URL.endswith(".jpg")) and (not URL.endswith(".jpeg")):
-        try:
-            requestObj = requests.get(URL)
-            searched_links.append(URL)
-            if (requestObj.status_code == 404):
-                broken_links.append("BROKEN: link " + URL + " from " + parentURL)
-                print(broken_links[-1])
-            else:
+    if (
+        URL in searched_links
+        or URL.startswith("mailto:")
+        or "javascript:" in URL
+        or URL.endswith(".png")
+        or URL.endswith(".jpg")
+        or URL.endswith(".jpeg")
+    ):
+        return
+    try:
+        requestObj = requests.get(URL)
+        searched_links.append(URL)
+        if (requestObj.status_code == 404):
+            broken_links.append(f"BROKEN: link {URL} from {parentURL}")
+            print(broken_links[-1])
+        else:
                 # comment this line if you want to print only broken links
-                print("NOT BROKEN: link " + URL + " from " + parentURL)
-                if urlparse(URL).netloc == domainToSearch:
-                    for link in getLinksFromHTML(requestObj.text):
-                        find_broken_links(domainToSearch, urljoin(URL, link), URL)
-        except Exception as e:
-            print("ERROR: " + str(e))
-            searched_links.append(domainToSearch)
+            print(f"NOT BROKEN: link {URL} from {parentURL}")
+            if urlparse(URL).netloc == domainToSearch:
+                for link in getLinksFromHTML(requestObj.text):
+                    find_broken_links(domainToSearch, urljoin(URL, link), URL)
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        searched_links.append(domainToSearch)
 
 
 find_broken_links(urlparse(sys.argv[1]).netloc, sys.argv[1], "")

@@ -36,8 +36,7 @@ def call_browser(arg):
 
 def get_data(url):
     response = requests.get(url)
-    data = json.loads(response.content)
-    return data
+    return json.loads(response.content)
 
 
 def save_data(content, extension):
@@ -347,7 +346,7 @@ def main_ui():
 
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
-    root.geometry("{}x{}".format(screen_width, screen_height))
+    root.geometry(f"{screen_width}x{screen_height}")
     root.title("Real time COVID-19 information tracker")
     # root.attributes('-fullscreen', True)
     # root.state('withdrawn')

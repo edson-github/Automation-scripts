@@ -93,12 +93,7 @@ def check_database():
 
     try:
 
-        # If it was True that means the program has run for the first time
-        is_first = False
-
-        if not os.path.isfile(FILENAME):
-            is_first = True
-
+        is_first = not os.path.isfile(FILENAME)
         with sqlite3.connect(FILENAME) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -166,15 +161,13 @@ def prompt(user_password):
 
             # Row added
             print(f"[{GREEN_COLOR}+{NO_COLOR}] Successfully added...")
-            prompt(user_password)
-
         else:
 
             # ERROR
             print(
                 f"[{RED_COLOR}-{NO_COLOR}] Error while writing the password..."
             )
-            prompt(user_password)
+        prompt(user_password)
 
     elif cmd.lower() == 'delete':
 
@@ -312,23 +305,18 @@ def select_data(user_password):
             # password => id, encrypted name and encrypted password
             passwords = cursor.execute("SELECT * FROM passwords;").fetchall()
 
-            # result => id, decrypted name and decrypted password
-            result = []
-
-            for (id_num, name, password) in passwords:
-                result.append(
-                    (
-                        id_num,
-                        decrypt(
-                            str(user_password).encode('utf-8'), name
-                        ).decode('utf-8'),
-                        decrypt(
-                            str(user_password).encode('utf-8'), password
-                        ).decode('utf-8')
-                    )
+            return [
+                (
+                    id_num,
+                    decrypt(str(user_password).encode('utf-8'), name).decode(
+                        'utf-8'
+                    ),
+                    decrypt(
+                        str(user_password).encode('utf-8'), password
+                    ).decode('utf-8'),
                 )
-
-            return result
+                for id_num, name, password in passwords
+            ]
     except Exception:
         return -1
 

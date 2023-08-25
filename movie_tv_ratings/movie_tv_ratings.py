@@ -16,7 +16,11 @@ def scrape_movies():
         movie_string = movies[i].get_text()
         movie = (' '.join(movie_string.split()).replace('.', ''))
         movie_title = movie[len(str(i)) + 1:-7]
-        print(("| " + str(i + 1)) + (" | " + movie_title) + (" | Rating : " + "{:.1f}".format(float(ratings[i]))))
+        print(
+            f"| {str(i + 1)}"
+            + f" | {movie_title}"
+            + (" | Rating : " + "{:.1f}".format(float(ratings[i])))
+        )
     return
 
 
@@ -25,7 +29,7 @@ def scrape_tvshows():
     page = requests.get("https://www.imdb.com/chart/toptv")
     Results = re.findall(r'" alt="(.+?)".*?title="(.*?)".*?strong.*?"(.*?)"', page.text, re.DOTALL)
     for i in range(len(Results)):
-        print("| " + str(i + 1) + " | " + Results[i][0] + " | Rating : " + Results[i][-1][:3])
+        print(f"| {str(i + 1)} | {Results[i][0]} | Rating : {Results[i][-1][:3]}")
 
     return
 

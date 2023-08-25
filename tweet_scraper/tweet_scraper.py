@@ -21,12 +21,9 @@ tweets = api.user_timeline(
     screen_name=username, count=number_of_tweets, tweet_mode="extended"
 )
 
-file = open("tweets.txt", "a", encoding="utf-8")
-
-# store the tweets
-for tweet in [tweet.full_text for tweet in tweets]:
-    file.write(
-        tweet + "\n===============================================================\n"
-    )
-
-file.close()
+with open("tweets.txt", "a", encoding="utf-8") as file:
+    # store the tweets
+    for tweet in [tweet.full_text for tweet in tweets]:
+        file.write(
+            tweet + "\n===============================================================\n"
+        )

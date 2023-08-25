@@ -9,7 +9,7 @@ def PPTtoPDF(inputFileName, outputFileName, formatType=2):
     powerpoint.Visible = 1
 
     if outputFileName[-3:] != 'pdf':
-        outputFileName = outputFileName + ".pdf"
+        outputFileName = f"{outputFileName}.pdf"
     deck = powerpoint.Presentations.Open(inputFileName)
     deck.SaveAs(outputFileName, constants.PpSaveAsPDF)
     deck.Close()
@@ -23,7 +23,7 @@ def PPTtoPDFNote(inputFileName, outputFileName, formatType=32):
     powerpoint.Visible = 1
 
     if outputFileName[-3:] != 'pdf':
-        outputFileName = outputFileName + ".pdf"
+        outputFileName = f"{outputFileName}.pdf"
     deck = powerpoint.Presentations.Open(inputFileName)
     deck.ExportAsFixedFormat(
         outputFileName,

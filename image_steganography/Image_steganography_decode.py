@@ -11,8 +11,7 @@ def decrypt(mess, key):
         a = 16 - len(key) % 16
         key = key.ljust(len(key) + a)
     cipher = AES.new(key)
-    plain_txt = cipher.decrypt(mess)
-    return plain_txt
+    return cipher.decrypt(mess)
 
 
 def correlation(M1, M2):
@@ -51,8 +50,7 @@ def sobelfilter(s):
     """To detect the edges of the image"""
     filter1 = gaussian_filter(3)
     s = correlation(s, filter1)
-    sobelxy = cv2.Sobel(src=s, ddepth=cv2.CV_8U, dx=1, dy=1, ksize=3)
-    return sobelxy
+    return cv2.Sobel(src=s, ddepth=cv2.CV_8U, dx=1, dy=1, ksize=3)
 
 
 def pix_decode(pos, img):
@@ -60,11 +58,7 @@ def pix_decode(pos, img):
     x = pos[0]
     y = pos[1]
     pix_val = img[x, y]
-    if pix_val % 2 == 1:
-        c = 1
-    else:
-        c = 0
-    return c
+    return 1 if pix_val % 2 == 1 else 0
 
 
 def image_steg_decode(orimg, gr, key):
@@ -80,7 +74,7 @@ def image_steg_decode(orimg, gr, key):
         num = pix_decode(f_points[i], gr)
         f = np.append(f, num)
     ascii_string = ""
-    for i in range(int(n / 8)):
+    for i in range(n // 8):
         b = ' '.join(str(int(e)) for e in f[i * 8:(i * 8) + 8])
         b = b.replace(" ", "")
         an_integer = int(b, 2)
@@ -90,7 +84,7 @@ def image_steg_decode(orimg, gr, key):
         ascii_string += ascii_character
     le = int(ascii_string)
     n = 82
-    for i in range(le + 80):
+    for _ in range(le + 80):
         num = pix_decode(f_points[n], gr)
         f = np.append(f, num)
         n = n + 1
@@ -105,8 +99,7 @@ def image_steg_decode(orimg, gr, key):
     ascii_string = bytes(ascii_string, 'utf-8')
     ed, _ = codecs.escape_decode(ascii_string, 'hex')
     print(ed)
-    ans = decrypt(ed, key)
-    return (ans)
+    return decrypt(ed, key)
 
 
 image = cv2.imread("original image")

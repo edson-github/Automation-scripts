@@ -95,16 +95,16 @@ def addWeather():
     global newTable
     if newTable:
         city = cityEntry.get()
-        location = city + ",us"
+        location = f"{city},us"
         querystring = {"q": location}
         response = requests.request("GET", url, headers=headers,
                                     params=querystring)
         createTable(response.json(), city)
         button_text.set("Add New City")
         newTable = False
-    elif not newTable:
+    else:
         city = cityEntry.get()
-        location = city + ",us"
+        location = f"{city},us"
         querystring = {"q": location}
         response = requests.request("GET", url, headers=headers,
                                     params=querystring)

@@ -45,7 +45,7 @@ def get_episodes(imdb_code):
         imdb_code = imdb_code[2:]
 
     series = ia.get_movie(imdb_code)
-    print("SERIES: {}".format(colored(series, "magenta")))
+    print(f'SERIES: {colored(series, "magenta")}')
 
     ia.update(series, "episodes")
     episodes = series.data['episodes']
@@ -57,19 +57,15 @@ def get_episodes(imdb_code):
             title = episodes[season][episode]['title']
 
             if season < 10:
-                if episode < 10:
-                    ep_name = "{} S0{}E0{} - {}".format(series,
-                                                        season, episode, title)
-                else:
-                    ep_name = "{} S0{}E{} - {}".format(series,
-                                                       season, episode, title)
+                ep_name = (
+                    f"{series} S0{season}E0{episode} - {title}"
+                    if episode < 10
+                    else f"{series} S0{season}E{episode} - {title}"
+                )
+            elif episode < 10:
+                ep_name = f"{series} S{season}E0{episode} - {title}"
             else:
-                if episode < 10:
-                    ep_name = "{} S{}E0{} - {}".format(series,
-                                                       season, episode, title)
-                else:
-                    ep_name = "{} S{}E{} - {}".format(series,
-                                                      season, episode, title)
+                ep_name = f"{series} S{season}E{episode} - {title}"
 
             for i in ep_name:
                 if i in not_allowed:
@@ -95,9 +91,9 @@ def rename_episode(directory, episode_list):
             ep_name += ext
             filename = os.path.join(directory, og_name)
             newfilename = os.path.join(directory, ep_name)
-            print("Renaming {} to {}".format(
-                colored(filename, 'yellow'),
-                colored(newfilename, 'green')))
+            print(
+                f"Renaming {colored(filename, 'yellow')} to {colored(newfilename, 'green')}"
+            )
             os.rename(filename, newfilename)
     print(
         colored(
@@ -111,18 +107,16 @@ def rename_subtitle(directory, episode_list):
     print("Renaming subtitles...")
 
     for i in range(len(files)):
-        ep_name = episode_list[i]
         og_name = files[i]
         ext = og_name[-4:]
+        ep_name = episode_list[i]
         if ext == ".srt":
             ep_name += ext
             filename = os.path.join(directory, og_name)
             newfilename = os.path.join(directory, ep_name)
             print(
-                "Renaming {} to {}".format(
-                    colored(
-                        filename, 'yellow'), colored(
-                        newfilename, 'green')))
+                f"Renaming {colored(filename, 'yellow')} to {colored(newfilename, 'green')}"
+            )
             os.rename(filename, newfilename)
     print(
         colored(
@@ -135,14 +129,12 @@ def edit_tag(directory):
     for file in os.listdir(directory):
         if ".mkv" in file:
             title = file.replace(".mkv", "")
-            command = r'mkvpropedit "{}\{}" --set "title={}"'.format(
-                directory, file, title)
+            command = f'mkvpropedit "{directory}\{file}" --set "title={title}"'
             os.system(command)
 
         if ".mp4" in file:
             title = file.replace(".mp4", "")
-            command = r'mkvpropedit "{}\{}" --set "title={}"'.format(
-                directory, file, title)
+            command = f'mkvpropedit "{directory}\{file}" --set "title={title}"'
             os.system(command)
 
     print(
@@ -158,13 +150,13 @@ if __name__ == "__main__":
         episodes = get_episodes(args.code)
 
     if args.episode:
-        args.episode = r'{}'.format(args.episode)
+        args.episode = f'{args.episode}'
         rename_episode(args.episode, episodes)
 
     if args.subtitle:
-        args.subtitle = r'{}'.format(args.subtitle)
+        args.subtitle = f'{args.subtitle}'
         rename_subtitle(args.subtitle, episodes)
 
     if args.tag:
-        args.tag = r'{}'.format(args.tag)
+        args.tag = f'{args.tag}'
         edit_tag(args.tag)

@@ -5,17 +5,7 @@ import os
 args = sys.argv[1:]  # get command line *args
 assert args, "No file/dir was provided"  # raise error is no arg is passed
 
-isdir = os.path.isdir(args[-1])
-
-# If input is CSV file
-if not isdir:
-    assert args[-1].endswith(".csv"), "Input file is not CSV; Provide CSV file"
-    data = pd.read_csv(args[-1])  # load CSV data as Pd object
-    data.to_excel(args[-1][:-4] + ".xlsx", index=None, header=True)
-    del data
-
-# If input is Directory containing multiple csv
-else:
+if isdir := os.path.isdir(args[-1]):
     try:
         # remove "/" from end of directory is passed
         if args[-1][-1] == "/":
@@ -31,5 +21,11 @@ else:
                 args[-1] + "_excel/" + filename[:-4] + ".xlsx"
             )  # write as excel
             del data  # delete the pandas DataFrame object
+
+else:
+    assert args[-1].endswith(".csv"), "Input file is not CSV; Provide CSV file"
+    data = pd.read_csv(args[-1])  # load CSV data as Pd object
+    data.to_excel(args[-1][:-4] + ".xlsx", index=None, header=True)
+    del data
 
 exit(0)

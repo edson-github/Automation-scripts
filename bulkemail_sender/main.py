@@ -11,7 +11,7 @@ emailid = input("Enter your email id here: ")
 server.login(emailid, getpass.getpass(prompt='Password: '))
 msg = input("Enter the body message here: ")
 subject = input('Enter the subject of the message here: ')
-body = 'Subject: {}\n\n{}'.format(subject, msg)
+body = f'Subject: {subject}\n\n{msg}'
 for email in emails:
     server.sendmail(emailid, email, body)
 server.quit()

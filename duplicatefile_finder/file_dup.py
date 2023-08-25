@@ -28,29 +28,26 @@ def get_digest(file_path):
 
     with open(file_path, 'rb') as file:
         while True:
-            # Reading is buffered, so we can read smaller chunks.
-            chunk = file.read(h.block_size)
-            if not chunk:
-                break
-            h.update(chunk)
+            if chunk := file.read(h.block_size):
+                h.update(chunk)
 
+            else:
+                break
     return h.hexdigest()
 
 
 def get_file_hashes(file_size, size_dic, root_fold):
-    files = list()
+    files = []
     files = [k for k, v in size_dic.items() if v == file_size]
-    hash_files = list()
-    hash_files = [get_digest(os.path.join(root_fold, name)) for name in files]
-
-    return hash_files
+    hash_files = []
+    return [get_digest(os.path.join(root_fold, name)) for name in files]
 
 
 if __name__ == "__main__":
     try:
         dest_folder = input('input the absolute path of a folder : ')
-        track_file_size = dict()
-        dup_files = list()
+        track_file_size = {}
+        dup_files = []
         files_list = os.listdir(dest_folder)
         for file_name in files_list:
             if os.path.isdir(os.path.join(dest_folder, file_name)):

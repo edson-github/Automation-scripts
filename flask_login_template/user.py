@@ -38,9 +38,9 @@ class User:
                         reg_form=reg_form,
                         login_form=login_form)
             elif login_form.submit2.data and login_form.validate():
-                user = config.db.users.find_one(
-                    {"username": login_form.username.data})
-                if user:
+                if user := config.db.users.find_one(
+                    {"username": login_form.username.data}
+                ):
                     if sha256_crypt.verify(
                             login_form.password.data, user['password']):
                         self.start_session(user)

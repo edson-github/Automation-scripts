@@ -211,21 +211,18 @@ Note: You can run the commands without providing additional arguments, in that c
             )
             model_type = (
                 input(
-                    f"enter type of the problem you want to solve: [regression]       "
+                    "enter type of the problem you want to solve: [regression]       "
                 )
                 or "regression"
             )
             d["model_type"] = model_type
             model_name = (
-                input(
-                    f"enter algorithm you want to use: [NeuralNetwork]        "
-                )
+                input("enter algorithm you want to use: [NeuralNetwork]        ")
                 or "NeuralNetwork"
             )
             d["model_name"] = model_name
             target = input(
-                f"enter the target you want to predict  "
-                "(this is usually a column name in your csv dataset):        "
+                'enter the target you want to predict  (this is usually a column name in your csv dataset):        '
             )
             d["target"] = target
 
@@ -322,7 +319,7 @@ Note: You can run the commands without providing additional arguments, in that c
 
     def _show_model_infos(self, model_name: str, model_type: str):
         if not model_name:
-            print(f"Please enter a supported model")
+            print("Please enter a supported model")
             self._print_models_overview()
         else:
             if not model_type:
@@ -489,7 +486,7 @@ Note: You can run the commands without providing additional arguments, in that c
             else st
         )
         align_right = (
-            lambda st, sz: "{}{} ".format(" " * (sz - len(st) - 1), st)
+            lambda st, sz: f'{" " * (sz - len(st) - 1)}{st} '
             if len(st) < sz
             else st
         )
@@ -513,15 +510,14 @@ Note: You can run the commands without providing additional arguments, in that c
         ).join(["|", "|"])
         hline = build_hline(df_columns)
         out = [hline, build_data(df_columns, align_center), hline]
-        for _, row in df.iterrows():
-            out.append(build_data(row.tolist(), align_right))
+        out.extend(build_data(row.tolist(), align_right) for _, row in df.iterrows())
         out.append(hline)
         return "\n".join(out)
 
 
     def info(self):
         print(
-            f"""
+            """
             Name:                   ML_solver 
             author:                 Kushagra Shukla
             contact:                1kuspia@gmail.com

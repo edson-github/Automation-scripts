@@ -19,7 +19,7 @@ def dac(dns_val=None) -> OrderedDict:
 
     if dns_val is None:
         raise ValueError("Sorry, DNS is needed")
-    if isinstance(dns_val, str) is False:
+    if not isinstance(dns_val, str):
         raise TypeError("Sorry, \'DNS\' must be type \'str\'")
     try:
         output = dns.resolver.resolve(dns_val, 'A')

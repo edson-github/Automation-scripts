@@ -31,9 +31,7 @@ def live_score(mid):
     c = Cricbuzz()
     lscore = c.livescore(mid)
 
-    if lscore == {}:
-        pass
-    else:
+    if lscore != {}:
         print("-------------------------------------------")
         print("Innings No : " + lscore["batting"]["score"][0]["inning_num"])
         print(lscore["batting"]["team"] + " : " + lscore["batting"]["score"][0]["runs"] + "/"

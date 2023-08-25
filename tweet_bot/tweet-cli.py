@@ -11,7 +11,7 @@ example:
 
 
 def tweet_cli(api):
-    if not len(argv) == 2:
+    if len(argv) != 2:
         print(usage)
     else:
         api.update_status(argv[1])

@@ -14,11 +14,8 @@ img = cv2.imread(image_path)
 text = pytesseract.image_to_string(img, config="-l eng --oem 1")
 text = text.replace("-\n", "").replace("\n", " ")
 
-# writing the text
-file = open(file_path, "w")
-file.write(text)
-file.close()
-
+with open(file_path, "w") as file:
+    file.write(text)
 # adding boxes around the words
 boxes = pytesseract.image_to_data(img)
 for z, box in enumerate(boxes.splitlines()):

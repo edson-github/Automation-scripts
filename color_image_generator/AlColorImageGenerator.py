@@ -59,7 +59,7 @@ class AlColorImageGenerator:
             img = imageFileEntry.get("1.0", END)
             img = img.replace('/', '\\')[:-1]
             nimg = os.path.basename(img)
-            cimg = 'color_' + nimg
+            cimg = f'color_{nimg}'
             image = cv2.imread(img)
             scaled = image.astype("float32") / 255.0
             lab = cv2.cvtColor(scaled, cv2.COLOR_BGR2LAB)

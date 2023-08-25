@@ -37,11 +37,8 @@ def edit_book(conn, prop, value, name):
 def show_books(conn):
     c = conn.cursor()
     c.execute("SELECT * from books")
-    finresults = []
     results = c.fetchall()
-    for i in results:
-        finresults.append([i[0], i[1], i[2].split(', '), i[3]])
-    return finresults
+    return [[i[0], i[1], i[2].split(', '), i[3]] for i in results]
 
 
 def search_book(conn, prop, value):

@@ -148,14 +148,11 @@ class Ui_MainWindow(object):
 
     def search_books(self):
         global books
-        results = []
         searchtext = self.lineEdit.text()
         field = [self.radioButton_1.isChecked(), self.radioButton_2.isChecked(
         ), self.radioButton_3.isChecked(), self.radioButton_4.isChecked()]
         ind = field.index(True)
-        for i in books:
-            if searchtext in i[ind]:
-                results.append(i)
+        results = [i for i in books if searchtext in i[ind]]
         self.list_1.clear()
         for item in results:
             newitem = QtWidgets.QListWidgetItem(
@@ -191,8 +188,7 @@ class Ui_MainWindow(object):
                     item[2]), ui.data['notes']))
 
     def open_dialog_box(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName()
-        return filename
+        return QtWidgets.QFileDialog.getOpenFileName()
         # print(filename)
 
     def open_properties(self, item):
@@ -217,7 +213,6 @@ class Ui_MainWindow(object):
                         break
                 delete_book(conn, books[ind][1])
                 del books[ind]
-                self.show_all()
             else:
                 # Ok is clicked
                 for index, i in enumerate(books):
@@ -232,7 +227,8 @@ class Ui_MainWindow(object):
                 edit_book(conn, 'tags', ', '.join(
                     books[index][2]), books[index][1])
                 edit_book(conn, 'notes', books[index][3], books[index][1])
-                self.show_all()
+
+            self.show_all()
 
 
 if __name__ == "__main__":

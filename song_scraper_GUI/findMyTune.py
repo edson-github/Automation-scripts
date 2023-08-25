@@ -92,15 +92,23 @@ class SongGUI:
               text="INSTRUCTIONS").pack(anchor=W, padx=10, pady=10)
 
         for i in range(1, 9):
-            Label(self.help_window, wraplength=500,
-                  justify="left", font=("", 12),
-                  text=str(i) + ". " + lines[i]).pack(anchor=W, pady=2, padx=10)
+            Label(
+                self.help_window,
+                wraplength=500,
+                justify="left",
+                font=("", 12),
+                text=f"{str(i)}. {lines[i]}",
+            ).pack(anchor=W, pady=2, padx=10)
         Label(self.help_window, font=("Helvetica 16 underline"),
               text="NOTE").pack(anchor=W, padx=10, pady=10)
         for i in range(8, 11):
-            Label(self.help_window, wraplength=500,
-                  justify="left", font=("", 12),
-                  text=str(i - 7) + ". " + lines[i]).pack(anchor=W, pady=2, padx=10)
+            Label(
+                self.help_window,
+                wraplength=500,
+                justify="left",
+                font=("", 12),
+                text=f"{str(i - 7)}. {lines[i]}",
+            ).pack(anchor=W, pady=2, padx=10)
 
         self.help_window.protocol("WM_DELETE_WINDOW", self.close_window)
 
@@ -172,16 +180,12 @@ class SongGUI:
         '''Function which download the song'''
 
         self.down_button['state'] = DISABLED
-        songNumber = self.results.focus()
-
-        # if option is selected
-        if (songNumber):
+        if songNumber := self.results.focus():
             songNumber = int(songNumber)
             downloadMySong(self.songlist[songNumber]['download-link'])
-            filename = [f for f in os.listdir() if f.endswith('.mp3')]
-            if (filename):
+            if filename := [f for f in os.listdir() if f.endswith('.mp3')]:
                 # rename file and save in download folder
-                os.rename(filename[0], 'downloads/' + filename[0][:-14] + ".mp3")
+                os.rename(filename[0], f'downloads/{filename[0][:-14]}.mp3')
                 tkinter.messagebox.showinfo(
                     'Song Downloaded Successfully',
                     "Your song is downloaded.")
@@ -189,9 +193,9 @@ class SongGUI:
                 tkinter.messagebox.showerror(
                     'Song Not Downloaded',
                     "Could'nt download your song, please try again later.")
-                filename = [f for f in os.listdir(
-                ) if f.endswith('.crdownload')]
-                if (filename):
+                if filename := [
+                    f for f in os.listdir() if f.endswith('.crdownload')
+                ]:
                     for file in filename:
                         os.remove(file)
         else:

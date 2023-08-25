@@ -26,10 +26,9 @@ class DeleteImage:
         """
         Storing All the Docker Image Details Found on the System to a File
         """
-        file = open("temp.txt", "r+", encoding='utf-8')
-        file.truncate(0)
-        sp.run("sudo docker image list --format '{{.Repository}}~{{.Tag}}' >> temp.txt",shell=True , capture_output=True, check=True) # noqa
-        file.close()
+        with open("temp.txt", "r+", encoding='utf-8') as file:
+            file.truncate(0)
+            sp.run("sudo docker image list --format '{{.Repository}}~{{.Tag}}' >> temp.txt",shell=True , capture_output=True, check=True) # noqa
 
     def is_excluded(self, tag):
         """
@@ -38,27 +37,23 @@ class DeleteImage:
         # Excluding all the images with Alpine, Buster, Slim & Latest Tags
         reg = r"alpine|buster|slim|latest"
         flag = re.search(reg, tag)
-        if flag is not None:
-            return 0
-        return 1
+        return 0 if flag is not None else 1
 
     def load_all(self):
         """
         Loading data from the File to the Python program
         """
-        file = open("temp.txt", "r", encoding='utf-8')
+        with open("temp.txt", "r", encoding='utf-8') as file:
+            for line in file:
+                line = line.rstrip("\n")
+                image = line.split('~')
+                if self.is_excluded(image[1]):
 
-        for line in file:
-            line = line.rstrip("\n")
-            image = line.split('~')
-            if self.is_excluded(image[1]):
+                    regex = r"^(((\d+\.)?(\d+\.)?(\*|\d+)))(\-(dev|stage|prod))*$"
+                    match = re.search(regex, image[1])
 
-                regex = r"^(((\d+\.)?(\d+\.)?(\*|\d+)))(\-(dev|stage|prod))*$"
-                match = re.search(regex, image[1])
-
-                img_dict = {'Repository': image[0], 'Tag': match.group(2)}
-                self.img_list.append(img_dict)
-        file.close()
+                    img_dict = {'Repository': image[0], 'Tag': match.group(2)}
+                    self.img_list.append(img_dict)
 
     def man_data(self):
         """
@@ -84,11 +79,7 @@ class DeleteImage:
 
             max_len = len(str(max(abs(x) for x in img['Tag'])))
             template_string = '{:<0' + str(max_len) + '}'
-            final_list = []
-
-            for new, i in enumerate(img['Tag']):
-                final_list.append(template_string.format(i))
-
+            final_list = [template_string.format(i) for i in img['Tag']]
             for i in range(0, len(img['Tag'])):
                 hash_map = {'TagsManipulated': final_list[i], 'TagsOriginal': temp[i]}  # noqa
                 self.hash_list.append(hash_map)
@@ -122,8 +113,13 @@ class DeleteImage:
                 for tag in img['Tag']:
                     val = self.hash_function(tag)
                     image_url = img['Repository'] + ":" + val
-                    print("Deleting Image : " + image_url)
-                    sp.run("sudo docker rmi " + image_url,shell=True,capture_output=True , check=True) # noqa
+                    print(f"Deleting Image : {image_url}")
+                    sp.run(
+                        f"sudo docker rmi {image_url}",
+                        shell=True,
+                        capture_output=True,
+                        check=True,
+                    )
 
 
 # Main Function

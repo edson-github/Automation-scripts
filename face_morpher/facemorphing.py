@@ -22,11 +22,14 @@ def readPoints(path):
 def applyAffineTransform(src, srcTri, dstTri, size):
     # Given a pair of triangles, find the affine transform.
     warpMat = cv2.getAffineTransform(np.float32(srcTri), np.float32(dstTri))
-    # Apply the Affine Transform just found to the src image
-    dst = cv2.warpAffine(src, warpMat, (size[0], size[1]), None,
-                         flags=cv2.INTER_LINEAR,
-                         borderMode=cv2.BORDER_REFLECT_101)
-    return dst
+    return cv2.warpAffine(
+        src,
+        warpMat,
+        (size[0], size[1]),
+        None,
+        flags=cv2.INTER_LINEAR,
+        borderMode=cv2.BORDER_REFLECT_101,
+    )
 
 
 # Warps and alpha blends triangular regions from img1 and img2 to img
@@ -72,8 +75,8 @@ if __name__ == '__main__':
     img1 = np.float32(img1)
     img2 = np.float32(img2)
     # Read array of corresponding points
-    points1 = readPoints(filename1 + '.txt')
-    points2 = readPoints(filename2 + '.txt')
+    points1 = readPoints(f'{filename1}.txt')
+    points2 = readPoints(f'{filename2}.txt')
     points = []
     # Compute weighted average point coordinates
     for i in range(0, len(points1)):

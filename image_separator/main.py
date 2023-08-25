@@ -31,14 +31,12 @@ OUTPUT = args.output
 
 def get_model():
     base_model = VGG16(weights='imagenet', include_top=True)
-    model = Model(inputs=base_model.input,
-                  outputs=base_model.layers[-2].output)
-    return model
+    return Model(inputs=base_model.input, outputs=base_model.layers[-2].output)
 
 
 def get_files(path_to_files, size):
     fn_imgs = []
-    files = [file for file in os.listdir(path_to_files)]
+    files = list(os.listdir(path_to_files))
     for file in files:
         img = cv2.resize(cv2.imread(os.path.join(path_to_files, file)), size)
         fn_imgs.append([file, img])
@@ -54,10 +52,7 @@ def feature_vector(img_arr, model):
 
 
 def feature_vectors(imgs_dict, model):
-    f_vect = {}
-    for fn, img in imgs_dict.items():
-        f_vect[fn] = feature_vector(img, model)
-    return f_vect
+    return {fn: feature_vector(img, model) for fn, img in imgs_dict.items()}
 
 
 def clustering(img_feature_vector):
@@ -76,11 +71,11 @@ def separate(y_kmeans, file_names):
     if (not os.path.exists(cluster_path)):
         os.mkdir(cluster_path)
     for c in range(0, n_clusters):
-        if not os.path.exists(cluster_path + 'cluster_' + str(c)):
-            os.mkdir(cluster_path + 'cluster_' + str(c))
+        if not os.path.exists(f'{cluster_path}cluster_{str(c)}'):
+            os.mkdir(f'{cluster_path}cluster_{str(c)}')
     for fn, cluster in zip(file_names, y_kmeans):
         image = cv2.imread(os.path.join(path_to_files, fn))
-        cv2.imwrite(cluster_path + 'cluster_' + str(cluster) + '/' + fn, image)
+        cv2.imwrite(f'{cluster_path}cluster_{str(cluster)}/{fn}', image)
 
 
 if __name__ == '__main__':

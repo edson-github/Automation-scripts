@@ -13,8 +13,7 @@ class AlFileSearcher():
     def findFile(self, rootFolder, rex):
         for root, dirs, files in os.walk(rootFolder):
             for f in files:
-                result = rex.search(f)
-                if result:
+                if result := rex.search(f):
                     print(os.path.join(root, f))
 
     def findFileInAllDrives(self, fileName):

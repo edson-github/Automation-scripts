@@ -21,8 +21,7 @@ def add_note():
     else:
         error.pack_forget()
         start_msg.pack_forget()
-        notes_list.insert(
-            END, f"{notes_list.size() + 1}. " + notes_entry.get())
+        notes_list.insert(END, f"{notes_list.size() + 1}. {notes_entry.get()}")
         notes_entry.delete(0, END)
         notes_list.see("end")
 

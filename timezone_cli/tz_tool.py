@@ -17,14 +17,13 @@ def print_help():
 # --- GET DATETIME OF PASSED TIMEZONE ---
 def get_datetime(time_zone):
     utcnow = timezone('utc').localize(datetime.utcnow())
-    output_datetime = utcnow.astimezone(timezone(time_zone)).replace(tzinfo=None)
-    return output_datetime
+    return utcnow.astimezone(timezone(time_zone)).replace(tzinfo=None)
 
 
 # --- GET DATETIME OF CUSTOM TIMEZONE ---
 def get_custom_tz(time_zone):
     response = str(get_datetime(time_zone))
-    print(f'%20s' % 'Timezone' + '  :' + ' ' * 2 + time_zone)  # noqa
+    print('%20s' % 'Timezone' + '  :' + ' ' * 2 + time_zone)
     date, time = response.split(' ')
     hours, minutes, seconds = time.split(':')
     print('%20s' % 'Hours' + '  :' + ' ' * 2 + hours)
@@ -96,7 +95,7 @@ def Main():
                     print('\n' + '-' * 50 + '\n')
 
     except getopt.error as error:
-        print(str(error))
+        print(error)
 
 
 if __name__ == '__main__':

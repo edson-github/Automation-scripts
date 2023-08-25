@@ -116,7 +116,7 @@ class EmailSender:
                                       'utf-8')
                 hashed = hashlib.sha512(self.password).hexdigest()
                 if json_data['gmail'] == self.args.from_:
-                    if str(json_data['password']) == str(hashed):
+                    if str(json_data['password']) == hashed:
                         self.route()
                     else:
                         print(f'{Fore.RED}Wrong Password!{Fore.RESET}')
@@ -129,10 +129,8 @@ class EmailSender:
                                     f'{self.args.from_}{Fore.RESET}:'),
                                 'utf8')
                             hashed = hashlib.sha512(self.password).hexdigest()
-                            if json_data['password'] == str(hashed):
+                            if json_data['password'] == hashed:
                                 self.send_email_file()
-                            else:
-                                pass
                         sys.exit(f'{Fore.RED}Wrong Password')
                 else:
                     self.new_email()
@@ -152,24 +150,23 @@ class EmailSender:
             sys.exit('\n' + "Exiting ! Did Not Send The Email.")
 
     def get_body(self):
-        if self.args.body:
-            try:
-                print(f'{Fore.LIGHTBLACK_EX}Hint:{Fore.RESET} '
-                      f'Press {Fore.BLUE}Ctrl+C{Fore.RESET} to '
-                      'end the message!')
-                while True:
-                    line = input(f"{Fore.CYAN}Body>")
-                    if line:
-                        self.body_content_list.append(line)
-                    else:
-                        if line == "":
-                            self.body_content_list.append("\n")
-                        else:
-                            break
-                    self.body_content = '\n'.join(self.body_content_list)
-            except KeyboardInterrupt:
-                print(f"\n\n{Fore.LIGHTGREEN_EX}Body done!")
-                return self.body_content
+        if not self.args.body:
+            return
+        try:
+            print(f'{Fore.LIGHTBLACK_EX}Hint:{Fore.RESET} '
+                  f'Press {Fore.BLUE}Ctrl+C{Fore.RESET} to '
+                  'end the message!')
+            while True:
+                if line := input(f"{Fore.CYAN}Body>"):
+                    self.body_content_list.append(line)
+                elif line == "":
+                    self.body_content_list.append("\n")
+                else:
+                    break
+                self.body_content = '\n'.join(self.body_content_list)
+        except KeyboardInterrupt:
+            print(f"\n\n{Fore.LIGHTGREEN_EX}Body done!")
+            return self.body_content
 
     def get_recipients(self):
         self.from_email = self.args.from_
@@ -237,7 +234,7 @@ class EmailSender:
         print("Total Emails:", len(selected_mails[0].split()))
 
         if not self.args.listall:
-            num_of_emails = selected_mails[0].split()[::-1][0:self.args.list]
+            num_of_emails = selected_mails[0].split()[::-1][:self.args.list]
         else:
             num_of_emails = selected_mails[0].split()[::-1]
 

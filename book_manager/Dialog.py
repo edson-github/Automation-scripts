@@ -18,12 +18,7 @@ class Ui_Dialog(object):
         Dialog.resize(433, 310)
         self.dialog = Dialog
         self.add = add
-        self.data = {}
-        self.data['delete'] = False
-        self.data['name'] = ''
-        self.data['path'] = ''
-        self.data['tags'] = ''
-        self.data['notes'] = ''
+        self.data = {'delete': False, 'name': '', 'path': '', 'tags': '', 'notes': ''}
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(20, 30, 55, 16))
         self.label.setObjectName("label")
@@ -105,8 +100,7 @@ class Ui_Dialog(object):
     def open_clicked(self):
         try:
             item = self.lineEdit_2.text().split('/')
-            finalpath = '/'.join(item[:-1])
-            if finalpath:
+            if finalpath := '/'.join(item[:-1]):
                 os.startfile(finalpath)
         except Exception as e:
             print("Open Error Occurred", e)

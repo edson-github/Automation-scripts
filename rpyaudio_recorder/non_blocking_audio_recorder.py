@@ -34,13 +34,13 @@ class ButtonRecorder():
         self.recfile = None
 
         # path where audio files will be saved
-        if os.path.isdir(ROOT_PATH + "/Audio"):
+        if os.path.isdir(f"{ROOT_PATH}/Audio"):
             print("Audio Directory is Available")
         else:
             print("Audio Directory is Unavailable, so that's why creating one")
-            os.makedirs(ROOT_PATH + "/Audio")
+            os.makedirs(f"{ROOT_PATH}/Audio")
 
-        self.path = ROOT_PATH + "/Audio/"
+        self.path = f"{ROOT_PATH}/Audio/"
         self.button.when_pressed = self.pressed
 
     def timeStamp(self):
@@ -71,7 +71,7 @@ class ButtonRecorder():
         """
         print("In recordTag")
         self.button.when_released = self.released
-        print("Saving with timestamp audio recording to loaction : {}".format(name))
+        print(f"Saving with timestamp audio recording to loaction : {name}")
         self.recfile = self.recorderHandler.open(name, 'wb')
         self.recfile.start_recording()
         print("Recording Started")

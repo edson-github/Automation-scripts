@@ -6,8 +6,7 @@ import sys
 
 # url converter function
 def make_short(url):
-    shorturl = pyshorteners.Shortener().tinyurl.short(url)
-    return shorturl
+    return pyshorteners.Shortener().tinyurl.short(url)
 
 
 # this will take multiple url as input

@@ -11,9 +11,9 @@ def login_required(f):
     def wrap(*args, **kwargs):
         if 'logged_in' in session:
             return f(*args, **kwargs)
-        else:
-            flash('Unauthorized. Please login.', 'danger')
-            return redirect('/')
+        flash('Unauthorized. Please login.', 'danger')
+        return redirect('/')
+
     return wrap
 
 

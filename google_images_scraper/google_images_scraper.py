@@ -17,9 +17,7 @@ def driver_download():
 
 def google_images_scraper():
     GECKO_PATH = "/path/to/gecko/dir"  # /usr/bin/geckodriver
-    if os.path.isfile(GECKO_PATH):
-        pass
-    else:
+    if not os.path.isfile(GECKO_PATH):
         driver_download()
     # taking user arguments
     parser = argparse.ArgumentParser(description="Scrape Google images")
@@ -32,9 +30,9 @@ def google_images_scraper():
     args = parser.parse_args()
     query = args.search
     savePath = args.directory
-    print("Search Term is " + query)
-    print("Images will be saved to " + savePath + " directory")
-    site = "https://www.google.com/search?tbm=isch&q=" + query
+    print(f"Search Term is {query}")
+    print(f"Images will be saved to {savePath} directory")
+    site = f"https://www.google.com/search?tbm=isch&q={query}"
     # providing driver path
     driver = webdriver.Firefox(executable_path=GECKO_PATH)
     # passing site url
@@ -47,8 +45,7 @@ def google_images_scraper():
     also scrolling beyond that the results get a bit diluted)
     (will be able to retrieve around 250-300 images)
     """
-    i = 0
-    while i < 5:
+    for _ in range(5):
         # for scrolling page
         driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
 
@@ -61,8 +58,6 @@ def google_images_scraper():
         except Exception:
             pass
         time.sleep(5)
-        i += 1
-
     # parsing
     soup = BeautifulSoup(driver.page_source, "html.parser")
     # closing web browser
@@ -76,11 +71,11 @@ def google_images_scraper():
             # passing image urls one by one and downloading
             urllib.request.urlretrieve(i["src"], savePath + str(count) + ".jpg")
             count += 1
-            print("Number of images downloaded = " + str(count), end="\r")
+            print(f"Number of images downloaded = {count}", end="\r")
 
         except Exception:
             pass
-    print("Total images downloaded = " + str(count))
+    print(f"Total images downloaded = {str(count)}")
 
 
 if __name__ == "__main__":

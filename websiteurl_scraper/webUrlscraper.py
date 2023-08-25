@@ -11,7 +11,7 @@ ctx.verify_mode = ssl.CERT_NONE
 
 # getting in the website link
 Url = input("Enter your Urllink")
-try :
+try:
     # trying to access the page
     page = Request(Url, headers={'User-Agent': 'Mozilla/5.0'})
     page = urlopen(page, context=ctx).read()
@@ -32,5 +32,5 @@ try :
         # printing the final completed list
         for i in finalLinks :
             print(i)
-except Exception as e :
-    print(str(e))
+except Exception as e:
+    print(e)

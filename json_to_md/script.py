@@ -55,15 +55,25 @@ def parse_list(l, depth, options):  # noqa
 
 
 def build_header_chain(depth):
-    chain = list_tag * (bool(depth)) + htag * (depth + 1) + \
-        ' value ' + (htag * (depth + 1) + '\n')
-    return chain
+    return (
+        list_tag * (bool(depth))
+        + htag * (depth + 1)
+        + ' value '
+        + (htag * (depth + 1) + '\n')
+    )
 
 
 def build_value_chain(key, value, depth):
-    chain = tab * (bool(depth - 1)) + list_tag + \
-        str(key) + ": " + inline_code + str(value) + inline_code + "\n"
-    return chain
+    return (
+        tab * (bool(depth - 1))
+        + list_tag
+        + str(key)
+        + ": "
+        + inline_code
+        + str(value)
+        + inline_code
+        + "\n"
+    )
 
 
 def add_header(value, depth):
@@ -109,10 +119,7 @@ def main():
     else:
         input_file = args.input
 
-    if args.output is None:
-        output_file = f'{args.input[:-4]}md'
-    else:
-        output_file = args.output
+    output_file = f'{args.input[:-4]}md' if args.output is None else args.output
     print(f'[INFO] output: {output_file}')
 
     if args.ignore is not None:
@@ -127,9 +134,7 @@ def main():
     else:
         keys_to_keep = ''
 
-    options = dict()
-    options['ignore'] = keys_to_ignore
-    options['keep'] = keys_to_keep
+    options = {'ignore': keys_to_ignore, 'keep': keys_to_keep}
     print(options)
 
     convert(input_file, output_file, options)

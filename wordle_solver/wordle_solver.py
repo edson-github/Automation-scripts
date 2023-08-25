@@ -38,7 +38,6 @@ def on_release(key):
 def get_row_results(game_row):
     tiles = game_row.find_elements(
         By.XPATH, ".//*[contains(@class, 'Tile-module_tile__')]")
-    row_results = []
     res_to_int = {
         "correct": 1,
         "present": 0,
@@ -46,8 +45,7 @@ def get_row_results(game_row):
         "empty": -2,
         "tbd": -3
     }
-    for tile in tiles:
-        row_results.append(res_to_int[tile.get_attribute("data-state")])
+    row_results = [res_to_int[tile.get_attribute("data-state")] for tile in tiles]
     print(f"Row results : {row_results}")
 
     return tuple(row_results)
@@ -64,37 +62,23 @@ def enter_word(word):
 # Check word length, used in get_list_of_words()
 # if the source list contains words with different length
 def check_word_length(word):
-    if len(word) != 5:
-        return False
-    else:
-        return True
+    return len(word) == 5
 
 
 # Check if a word contains a specific letter
 def check_letter_in_word(letter, word):
-    if letter in word:
-        return True
-    else:
-        return False
+    return letter in word
 
 
 # Check if the letter in the finder object
 # is the same as the letter in the possible answer
 def check_match(finder_word_letter, possible_word_letter):
-    if finder_word_letter == possible_word_letter:
-        return True
-    else:
-        return False
+    return finder_word_letter == possible_word_letter
 
 
 # From the wordle words list, return all the words
 def get_list_of_words():
-    list_of_words = open("words_alpha.txt", "r").read().strip().splitlines()
-
-    # *** Use this if the source list contains words with different length ***
-    # list_of_words = list(filter(check_word_length, list_of_words))
-
-    return list_of_words
+    return open("words_alpha.txt", "r").read().strip().splitlines()
 
 
 # Algorithm that solve the wordle

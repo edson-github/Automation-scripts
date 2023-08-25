@@ -36,7 +36,7 @@ class App():
         self.isrecording = False
         print('Recording Completed')
         self.filename = input('Name the file?')
-        self.filename = self.filename + ".wav"
+        self.filename = f"{self.filename}.wav"
         wf = wave.open(self.filename, 'wb')
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.p.get_sample_size(self.sample_format))

@@ -20,7 +20,7 @@ def gMeet(url):
     print("Turned off mic")
     time.sleep(3)
 
-    for i in range(4):
+    for _ in range(4):
         pyautogui.press('tab')
 
     time.sleep(3)

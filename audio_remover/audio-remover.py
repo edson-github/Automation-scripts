@@ -12,7 +12,7 @@ parser.add_argument(
     type=str,
     help='The file path of target video. '
     + 'ex. /home/user/example.mp4.\nDefault value is "demo.mp4"',
-    default=base_dir + '/demo.mp4'
+    default=f'{base_dir}/demo.mp4',
 )
 parser.add_argument(
     '-n',

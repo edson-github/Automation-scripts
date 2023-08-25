@@ -34,34 +34,29 @@ class AlFileUnlatcher():
 
         def find():
             inputFile = fileText.get()
-            fileName = os.path.join(cwd + '/AlFileUnlatcher',
-                                    'files_database.lst')
-            if os.path.exists(fileName):
-                pass
-            else:
+            fileName = os.path.join(f'{cwd}/AlFileUnlatcher', 'files_database.lst')
+            if not os.path.exists(fileName):
                 dFile = open(fileName, "x")
                 dFile.close()
             filesList = []
             notFoundList = []
             otherList = []
-            dFile = open(fileName, "r")
-            files = dFile.readlines()
-            for file in files:
-                file = file.replace('\n', '')
-                if os.path.basename(file) == inputFile:
-                    if os.path.isfile(file):
-                        filesList.append(file)
+            with open(fileName, "r") as dFile:
+                files = dFile.readlines()
+                for file in files:
+                    file = file.replace('\n', '')
+                    if os.path.basename(file) == inputFile:
+                        if os.path.isfile(file):
+                            filesList.append(file)
+                        else:
+                            notFoundList.append(file)
                     else:
-                        notFoundList.append(file)
-                else:
-                    otherList.append(file)
-            dFile.close()
+                        otherList.append(file)
             lines = filesList + otherList
-            nFile = open(fileName, "w+")
-            for line in lines:
-                line += '\n'
-                nFile.write(line)
-            nFile.close()
+            with open(fileName, "w+") as nFile:
+                for line in lines:
+                    line += '\n'
+                    nFile.write(line)
             lfl = len(filesList)
             lnfl = len(notFoundList)
             if (lfl == 0) or (lnfl != 0 and lfl == 0) or (lnfl != 0):
@@ -71,9 +66,8 @@ class AlFileUnlatcher():
                 check = check.decode("utf-8").replace('\r\n', ',:;')
                 output = check.split(',:;')[:-1]
                 allFiles = [i + '\n' for i in output]
-                dFile = open(fileName, 'a')
-                dFile.writelines(allFiles)
-                dFile.close()
+                with open(fileName, 'a') as dFile:
+                    dFile.writelines(allFiles)
                 uniqlines = set(open(fileName).readlines())
                 bar = open(fileName, 'w+').writelines(set(uniqlines))
                 if bar:
@@ -82,7 +76,7 @@ class AlFileUnlatcher():
                     filename = os.path.basename(file)
                     if filename == inputFile and file not in filesList:
                         filesList.append(file)
-            if len(filesList) == 0:
+            if not filesList:
                 text.delete(1.0, END)
                 text.insert(1.0, 'Invalid input file')
             else:
@@ -91,10 +85,10 @@ class AlFileUnlatcher():
                     filename = os.path.basename(file)
                     try:
                         text.delete(1.0, END)
-                        text.insert(1.0, 'Opening ' + inputFile)
+                        text.insert(1.0, f'Opening {inputFile}')
                         os.startfile(os.path.join(directory, filename))
                     except Exception as e:
-                        print(str(e))
+                        print(e)
                         text.insert(1.0, 'Set a default application to open'
                                     ' the input file')
 

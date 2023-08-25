@@ -14,7 +14,7 @@ class Blocker:
     exit_blocker = False
 
     def __init__(self, path, os_num):
-        self.hosts_path = r"" + path
+        self.hosts_path = f"{path}"
         self.os_number = os_num
 
         print("Blocked Websites (^v^)")
@@ -37,7 +37,7 @@ class Blocker:
 
                 print("Blocked Websites (^v^)")
                 for website in self.website_list:
-                    print("# " + website)
+                    print(f"# {website}")
             elif user_input == 'exit':
                 print("Restoring Every change.....")
                 self.restore_host_file()
@@ -51,7 +51,7 @@ class Blocker:
             content = file.readlines()
             file.seek(0)
             for line in content:
-                if not any(website in line for website in self.website_list):
+                if all(website not in line for website in self.website_list):
                     file.write(line)
 
             file.truncate()
@@ -66,19 +66,16 @@ class Blocker:
         user_input = input("Enter URL Here: ")
         self.website_list.append(user_input)
         with open(self.hosts_path, 'r+') as file:
-            file.write(self.redirect + " " + user_input + "\n")
+            file.write(f"{self.redirect} {user_input}" + "\n")
 
         file.close()
 
     def clear_console(self):
-        if self.os_number == 2:
-            _ = system('cls')
-        else:
-            _ = system('clear')
+        _ = system('cls') if self.os_number == 2 else system('clear')
 
 
 def get_os():
-    if platform == "linux" or platform == "linux2":
+    if platform in ["linux", "linux2"]:
         # linux
         return 0
     elif platform == "darwin":
@@ -93,9 +90,8 @@ def driver():
     if get_os() == 2:
         if ctypes.windll.shell32.IsUserAnAdmin() == 0:
             ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
-    else:
-        if os.getuid() == 0:
-            elevate(graphical=False)
+    elif os.getuid() == 0:
+        elevate(graphical=False)
 
     print("Running script with Root/Admin privileges. AWESOME!!")
 

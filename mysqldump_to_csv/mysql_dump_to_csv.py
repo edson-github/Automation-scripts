@@ -23,8 +23,7 @@ def insertStatement(line):
 
 def getCleanedValue(line):
     value = None
-    result = re.search(r'\`([^\`]*)\`', line)
-    if result:
+    if result := re.search(r'\`([^\`]*)\`', line):
         value = result.groups()[0]
         print(value)
     return value
@@ -41,7 +40,7 @@ def getValueTuple(line):
 
 def writeFile(outputDirectory, tableName, schema, values):
     # File name that the current table will be assigned to
-    fileName = os.path.join(outputDirectory, '%s.csv' % (tableName,))
+    fileName = os.path.join(outputDirectory, f'{tableName}.csv')
     with open(fileName, 'w') as writeFile:
         writer = csv.DictWriter(writeFile, fieldnames=schema)
         writer.writeheader()

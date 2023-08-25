@@ -37,15 +37,12 @@ def get_password(length: int) -> str:
         random_char = secrets.choice(data)
 
         # if asked to exclude duplicates
-        if args.excludeduplicates:
-            # if character not already inside the password
-            # then add it into the password
-            if random_char not in password:
-                password += random_char
-        else:  # if not asked to exclude duplicates
-            # then just add the character without checking
+        if (
+            args.excludeduplicates
+            and random_char not in password
+            or not args.excludeduplicates
+        ):
             password += random_char
-
     # create a list of the password
     password_list = list(password)
     # shuffle the list into random sequence

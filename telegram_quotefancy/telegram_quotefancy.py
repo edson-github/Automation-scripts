@@ -27,7 +27,7 @@ def post_quote_to_telegram():
     for chat in CHAT_IDS:
         post_url = get_quote(type="img")
         json_data = {"chat_id": chat, "photo": post_url}
-        post_url = BASE_URI + "sendPhoto"
+        post_url = f"{BASE_URI}sendPhoto"
 
         # Calling Telegram Methods
         content = requests.post(post_url, json=json_data).json()

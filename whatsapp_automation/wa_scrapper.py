@@ -11,7 +11,7 @@ a = "//*[@id='side']/div[1]/div/label/div/div[2]"
 search_box = driver.find_element_by_xpath(a)
 search_box.send_keys(name)
 search_box.send_keys(Keys.ENTER)
-for a in range(1, 43):
+for _ in range(1, 43):
     driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
 time.sleep(8)
 lastmsg = driver.find_elements_by_class_name("cvjcv _1Ilru")
@@ -27,7 +27,7 @@ print("There was an issue while login!, Try again \n")
 text_box = driver.find_element_by_xpath(
     '//*[@id="main"]/footer/div[1]/div[2]/div/div[1]'
 )
-text = 'From Bot: "{}" \n'.format(bot)
+text = f'From Bot: "{bot}" \n'
 text_box.send_keys(text + Keys.ENTER)
 """driver.quit()"""
 print("Done! \n")

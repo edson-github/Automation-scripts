@@ -4,7 +4,7 @@ from io import BytesIO
 import numpy as np
 
 lst = []
-for i in range(0, 4):
+for _ in range(0, 4):
     url = input("Enter your image URL:")
     try:
         res = requests.get(url)

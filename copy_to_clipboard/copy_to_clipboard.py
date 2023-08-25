@@ -5,9 +5,8 @@ import subprocess
 
 # Seeing if the file exists
 if os.path.exists(sys.argv[1]):
-    f = open(sys.argv[1], "r")
-    f_contents = f.read()
-    f.close()
+    with open(sys.argv[1], "r") as f:
+        f_contents = f.read()
 else:
     print("Usage: copy2clip <file_name>")
     exit(1)

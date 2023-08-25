@@ -23,14 +23,13 @@ class Window(tk.Frame):
             self.inputeditor.get("1.0", tk.END)))
 
     def openfile(self):
-        filename = filedialog.askopenfilename(
+        if filename := filedialog.askopenfilename(
             filetypes=[
                 ("Markdown File", "*.md *.mdown *markdown"),
                 ("Text file", "*.txt"),
                 ("All files", "*.*"),
             ]
-        )
-        if filename:
+        ):
             try:
                 self.inputeditor.delete("1.0", tk.END)
                 self.inputeditor.insert(tk.END, open(filename, "r").read())
@@ -44,11 +43,10 @@ class Window(tk.Frame):
 
     def savefile(self):
         filedata = self.inputeditor.get("1.0", tk.END)
-        filename = filedialog.asksaveasfilename(
+        if filename := filedialog.asksaveasfilename(
             filetypes=(("Markdown file", "*.md"), ("Text file", "*.txt")),
             title="Save Markdown File",
-        )
-        if filename:
+        ):
             try:
                 f = open(filename, "w")
                 f.write(filedata)

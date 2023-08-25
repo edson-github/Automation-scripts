@@ -55,8 +55,6 @@ if confirm == "y":
     # get_coins function to get the data from the website
 
     def get_coin():
-        # store the data in a list
-        allrows = []
         # get the data from the website
         r = requests.get(
             "https://coinmarketcap.com/coins/", headers=headers, verify=False
@@ -68,8 +66,7 @@ if confirm == "y":
 
         # headings of the table
         columns = ["S.No", "Name", "Symbol", "URL"]
-        allrows.append(columns)
-
+        allrows = [columns]
         # get the data from the table
         cryptos = sel.xpath("//tr").extract()
         count = 1
@@ -115,16 +112,11 @@ if confirm == "y":
         # getting the data of a coin given in input
         with open("coins.csv", "r") as f:
             csv_reader = csv.reader(f, delimiter=",")
-            row_num = 1
-
             csv_reader = list(csv_reader)
             for row in csv_reader:
                 if len(row) == 0:
                     csv_reader.remove(row)
-            for i in range(1, 51):
-                if (sym.upper()) in csv_reader[i]:
-                    row_num = i
-                    break
+            row_num = next((i for i in range(1, 51) if (sym.upper()) in csv_reader[i]), 1)
         # opening the page of that coin
         driver.get(csv_reader[row_num][3])
         time.sleep(1.5)
@@ -174,29 +166,24 @@ if confirm == "y":
         atl_price = [ele.text.strip() for ele in tables1[18]][0]
 
         whatiscoin = " ".join(
-            text
-            for text in between(
-                soup.find(
-                    "h2", text="What Is {} ({})?".format(name, symbol)
-                ).next_sibling,
-                soup.find("h3", text="Who Are the Founders of {}?".format(name)),
+            between(
+                soup.find("h2", text=f"What Is {name} ({symbol})?").next_sibling,
+                soup.find("h3", text=f"Who Are the Founders of {name}?"),
             )
         )
 
         foundcoin = " ".join(
-            text
-            for text in between(
+            between(
                 soup.find(
-                    "h3", text="Who Are the Founders of {}?".format(name)
+                    "h3", text=f"Who Are the Founders of {name}?"
                 ).next_sibling,
-                soup.find("h4", text="What Makes {} Unique?".format(name)),
+                soup.find("h4", text=f"What Makes {name} Unique?"),
             )
         )
 
         uniqueness = " ".join(
-            text
-            for text in between(
-                soup.find("h4", text="What Makes {} Unique?".format(name)).next_sibling,
+            between(
+                soup.find("h4", text=f"What Makes {name} Unique?").next_sibling,
                 soup.find(id="related-pages"),
             )
         )
@@ -220,9 +207,9 @@ if confirm == "y":
             "All time high price",
             "All time lowest date",
             "All time lowest price",
-            "What is {}?".format(name),
-            "Who are the founders of {}?".format(name),
-            "What makes {} unique?".format(name),
+            f"What is {name}?",
+            f"Who are the founders of {name}?",
+            f"What makes {name} unique?",
         ]
         res_arr = [
             symbol,
@@ -245,12 +232,7 @@ if confirm == "y":
         ]
 
         # writing the data to a csv file
-        with open(
-            "coin_data_{}.csv".format(
-                str(time.strftime("%b-%d-%Y_%H%M", time.localtime()))
-            ),
-            "w",
-        ) as f:
+        with open(f'coin_data_{str(time.strftime("%b-%d-%Y_%H%M", time.localtime()))}.csv', "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(headers1)
             csvwriter.writerow(res_arr)

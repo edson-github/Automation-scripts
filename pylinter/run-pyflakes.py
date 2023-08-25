@@ -7,11 +7,7 @@ from .utils import collect_sources
 def ignore(p):
     """ Ignore hidden and test files """
     parts = p.splitall()
-    if any(x.startswith(".") for x in parts):
-        return True
-    if 'test' in parts:
-        return True
-    return False
+    return True if any(x.startswith(".") for x in parts) else 'test' in parts
 
 
 def run_pyflakes():

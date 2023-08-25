@@ -17,11 +17,10 @@ def parse_args():
                         nargs=1, metavar='filename', help='Decrypt')
     args = parser.parse_args()
 
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit()
-    else:
+    if len(sys.argv) != 1:
         return args
+    parser.print_help()
+    sys.exit()
 
 
 def file_exist(filename):
@@ -29,7 +28,7 @@ def file_exist(filename):
     Check to see if the entered file exists or not.
     """
     if not os.path.exists(filename):
-        print("Error: '{}' does not exist".format(filename))
+        print(f"Error: '{filename}' does not exist")
         sys.exit()
 
 
@@ -60,11 +59,11 @@ if __name__ == '__main__':
         password = getpass.getpass("Please provide the password to "
                                    "encrypt the file with: ")
         encrypt(encrypt_file, password)
-        print("{} has been successfully encrypted.".format(encrypt_file))
+        print(f"{encrypt_file} has been successfully encrypted.")
     else:
         decrypt_file = args.decrypt[0]
         file_exist(decrypt_file)
         password = getpass.getpass("Please provide the password to "
                                    "decrypt the file with: ")
         decrypt(decrypt_file, password)
-        print("{} has been successfully decrypted.".format(decrypt_file))
+        print(f"{decrypt_file} has been successfully decrypted.")

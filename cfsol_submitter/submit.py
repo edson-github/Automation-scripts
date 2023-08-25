@@ -34,10 +34,10 @@ for i in range(t):
 for j in range(i, t):
     part2 = part2 + problem[j]
 
-st = part1 + '/' + part2
+st = f'{part1}/{part2}'
 
 
-print('https://codeforces.com/problemset/problem/' + st)
+print(f'https://codeforces.com/problemset/problem/{st}')
 
 # Locating path of problem
 
@@ -45,7 +45,7 @@ print("Please enter the file path: For instance: 1021A.cpp or Watermelon.cpp")
 
 path = os.getcwd()
 Path = input()
-path = path + '/' + Path
+path = f'{path}/{Path}'
 print(path)
 
 # Acessing the browser
@@ -55,7 +55,7 @@ options.add_argument(r"C:\Users\Divyansh Mishra\AppData\Local\Google\Chrome\User
 driver = webdriver.Chrome(r'C:\Python\Chromedriver\chromedriver.exe')
 
 
-driver.get('https://codeforces.com/problemset/problem/' + st)
+driver.get(f'https://codeforces.com/problemset/problem/{st}')
 
 
 driver.find_element_by_xpath("//*[@id='header']/div[2]/div[2]/a[1]").click()

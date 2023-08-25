@@ -72,9 +72,7 @@ def print_help():
 def increase(new_d, old_d):
     diff = int(new_d) - int(old_d)
     diff2 = diff / int(old_d) * 100
-    if diff2 > 0:
-        return "+" + str(round(diff2)) + "%"
-    return str(round(diff2)) + "%"
+    return f"+{str(round(diff2))}%" if diff2 > 0 else f"{str(round(diff2))}%"
 
 
 def print_diff(title, i):
@@ -103,10 +101,7 @@ def print_cmd(data):
         s = "| "
         for j in range(len(data[0])):
             elem = data[i][j]
-            if j > 1:
-                s += elem + " " * (lens[j] - len(elem)) + " | "
-            else:
-                s += elem + " | "
+            s += elem + " " * (lens[j] - len(elem)) + " | " if j > 1 else f"{elem} | "
         print(s)
     # HERE THE INCREASE FROM YESTERDAY
     titles = [

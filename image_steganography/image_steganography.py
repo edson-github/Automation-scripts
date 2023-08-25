@@ -15,8 +15,7 @@ def encrypt(mess, key):
         a = 16 - len(mess) % 16
         mess = mess.ljust(len(mess) + a)
     cipher = AES.new(key)
-    encrypted_data = cipher.encrypt(mess)
-    return encrypted_data
+    return cipher.encrypt(mess)
 
 
 def correlation(M1, M2):
@@ -55,8 +54,7 @@ def sobelfilter(s):
     """Function to detect the edges of an image"""
     filter1 = gaussian_filter(3)
     s = correlation(s, filter1)
-    sobelxy = cv2.Sobel(src=s, ddepth=cv2.CV_8U, dx=1, dy=1, ksize=3)
-    return sobelxy
+    return cv2.Sobel(src=s, ddepth=cv2.CV_8U, dx=1, dy=1, ksize=3)
 
 
 def image_steg(img, mess, key):
@@ -74,8 +72,7 @@ def image_steg(img, mess, key):
         arr = " ".join(f"{ord(x):08b}" for x in i)
         for j in arr:
             f = np.append(f, int(j))
-    l1 = str(len(en_mess) * 8)
-    l1 = l1 + "/"
+    l1 = f"{str(len(en_mess) * 8)}/"
     arr = " ".join(f"{ord(x):08b}" for x in l1)
     for j in arr:
         if j != ' ':
@@ -83,19 +80,13 @@ def image_steg(img, mess, key):
     for i in le:
         x, y = f_points[n]
         pix_val = img_gray[x, y]
-        if (pix_val % 2 == i):
-            img_gray[x, y] = img_gray[x, y]
-        else:
-            img_gray[x, y] = img_gray[x, y] - 1
+        img_gray[x, y] = img_gray[x, y] if (pix_val % 2 == i) else img_gray[x, y] - 1
         n = n + 1
     n = 82
     for i in f:
         x, y = f_points[n]
         pix_val = img_gray[x, y]
-        if (pix_val % 2 == i):
-            img_gray[x, y] = img_gray[x, y]
-        else:
-            img_gray[x, y] = img_gray[x, y] - 1
+        img_gray[x, y] = img_gray[x, y] if (pix_val % 2 == i) else img_gray[x, y] - 1
         n = n + 1
     print(n)
     return img_gray

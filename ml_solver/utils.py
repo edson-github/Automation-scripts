@@ -52,7 +52,7 @@ def extract_params(config):
     algorithm = model_params.get("algorithm")
     target = config.get("target")
 
-    if any(not item for item in [model_type, target, algorithm]):
+    if not all([model_type, target, algorithm]):
         raise Exception("parameters in the model yaml file cannot be None")
     else:
         return model_type, target, algorithm
@@ -119,7 +119,7 @@ def get_expected_scaling_method(training_config):
     preprocess_options = dataset_props.get("preprocess")
     if not preprocess_options:
         return
-    scaling_options = preprocess_options.get("scale")
-    if not scaling_options:
+    if scaling_options := preprocess_options.get("scale"):
+        return scaling_options.get("method")
+    else:
         return
-    return scaling_options.get("method")

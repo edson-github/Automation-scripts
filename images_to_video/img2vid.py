@@ -25,7 +25,7 @@ for filename in imagePaths:
 if out is None:
     out = cv2.VideoWriter(args["output_video"], cv2.VideoWriter_fourcc(*'DIVX'), 1, (w, h), True)
 
-for i in range(len(img_array)):
-    out.write(img_array[i])
+for item in img_array:
+    out.write(item)
 
 out.release()

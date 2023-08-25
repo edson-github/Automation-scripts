@@ -70,8 +70,10 @@ def main():
     start_day = datetime.utcnow()
 
     # 'Z' indicates UTC time
-    now = datetime.utcnow().isoformat() + 'Z'
-    last_monday = (datetime.utcnow() - timedelta(start_day.weekday())).isoformat() + 'Z'
+    now = f'{datetime.utcnow().isoformat()}Z'
+    last_monday = (
+        f'{(datetime.utcnow() - timedelta(start_day.weekday())).isoformat()}Z'
+    )
 
     print('Getting the upcoming 10 events')
     print('**************************************************************\n')
@@ -106,9 +108,8 @@ def main():
             for task in tasks:
                 if task.color == color:
                     total_time += task.total_time
-            text = "For " + category + " you have planned to spend:"
-            number_of_spaces = 15
-            number_of_spaces -= len(category)
+            text = f"For {category} you have planned to spend:"
+            number_of_spaces = 15 - len(category)
             string_length = len(text) + number_of_spaces    # will be adding 10 extra spaces
             string_revised = text.ljust(string_length)
             print("\n-----------------------------------------------------------------")
